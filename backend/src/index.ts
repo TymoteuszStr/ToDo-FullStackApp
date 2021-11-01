@@ -1,12 +1,11 @@
 import app from './app'
-import config from './config'
+import { port } from './config'
 
 
-try{
-  app.listen(config.port, () => {
-    console.log(`Server is running on port: ${config.port}`);
+try {
+  app.listen(port, () => {
+    console.log(`Server is running on port: ${port}`);
   });
-}catch(e) {
-  console.log(`Cannot run the server: ${e}`);
+} catch (e) {
+  console.error(`Cannot run the server: ${e}`);
 }
-  
