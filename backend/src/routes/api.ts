@@ -1,11 +1,11 @@
 import express from 'express';
-import ToDoCollectionController from '../controllers/toDoCollectionController';
+import TaskController from '../controllers/taskController';
 
-const toDoCollection = new ToDoCollectionController()
+const task = new TaskController()
 const router = express.Router();
 
 
-router.get('/todos/:userId',  toDoCollection.getAllTodosFromCollection);
-
+router.post('/addTask', task.add);
+router.get('/allTasks/', task.getAll);
 
 module.exports =  router;
