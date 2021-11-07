@@ -1,15 +1,16 @@
 import { Schema, model, Document} from 'mongoose';
 
-export interface Task extends Document{
+export interface TaskArchive extends Document{
   _id: {},
+  taskId:{},
   description: string,
   isCompleted: boolean
 }
 
-const taskSchema = new Schema({
-  _id:{
+const taskArchiveSchema = new Schema({
+  taskId:{
     type: Schema.Types.ObjectId,
-    required: false
+    required: true
   },
   description: {
     type: String,
@@ -25,4 +26,4 @@ const taskSchema = new Schema({
 }, {versionKey: false });
 
 
-export const TaskModel = model<Task>('task', taskSchema);
+export const TaskArchiveModel = model<TaskArchive>('taskArchive', taskArchiveSchema);
