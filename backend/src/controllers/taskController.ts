@@ -1,21 +1,12 @@
 import { Request, Response, Router } from 'express';
-import { TaskModel, Task } from '../db/models/taskModel';
-import { ObjectId } from 'mongodb';
-import TaskArchiveController from './taskArchiveController';
-import { Model } from 'mongoose';
+import taskService from '../services/taskService';
 
-const taskArchive = new TaskArchiveController()
-
-export default class TaskController {
+class TaskController {
   async add(req: Request, res: Response): Promise<void> {
-
-    const { description, isCompleted } = req.body;
-    const _id = new ObjectId()
-    const newTask = new TaskModel({ _id, description, isCompleted });
-
     try {
-      await newTask.save();
-      res.status(201).send(_id)
+      const { description, isCompleted } = req.body;
+      const id = await taskService.saveTask(description, isCompleted)
+      res.status(201).send(id)
     } catch (err: any) {
       for (const key in err.errors) {
         console.log(err.errors[key].message)
@@ -25,13 +16,11 @@ export default class TaskController {
 
   }
   async delete(req: Request, res: Response): Promise<void> {
-
     const { id } = req.params;
     try {
-      const taskToArchive:any=  await TaskModel.findOne({ _id: id })
-      await taskArchive.add(taskToArchive)
-      await TaskModel.deleteOne({ _id: id })
-      res.status(200).send(`Task with id = ${id} has been deleted`)
+      const isDone = await taskService.archiveTask(id)
+      if(isDone) res.status(200).send(`Task with id = ${id} has been deleted`)
+      else res.status(400).send(`Task with id = ${id} can't be deleted`)
     } catch (err: any) {
       for (const key in err.errors) {
         console.log(err.errors[key].message)
@@ -41,9 +30,10 @@ export default class TaskController {
   }
 
   async getAll(req: Request, res: Response): Promise<void> {
-    const allTasks = await TaskModel.find({})
+    const allTasks = await taskService.getAllTasks()
     res.status(200).send(allTasks)
   }
 
 }
 
+export default new TaskController()

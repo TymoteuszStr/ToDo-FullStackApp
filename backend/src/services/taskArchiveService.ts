@@ -1,10 +1,9 @@
-import { Request, Response, Router } from 'express';
 import { TaskArchiveModel, TaskArchive } from '../db/models/taskArchiveModel';
 import { Task } from '../db/models/taskModel';
 
-export default class TaskArchiveController {
-  async add(task: any): Promise<boolean> {
-    const { _id, description, isCompleted } = task
+class TaskArchiveService {
+  async saveTask(taskToArchive: any): Promise<boolean> {
+    const { _id, description, isCompleted } = taskToArchive
     try {
       const newArchiveTask: TaskArchive = new TaskArchiveModel({taskId: _id, description, isCompleted });
       await newArchiveTask.save()
@@ -17,3 +16,4 @@ export default class TaskArchiveController {
   }
 }
 
+export default new TaskArchiveService();
