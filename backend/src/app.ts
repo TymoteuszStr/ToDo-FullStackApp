@@ -8,7 +8,7 @@ require('./db/mongoose')
 // app.use(express.urlencoded({ extended: false}));
 app.use(express.json());
 
-app.use(require('./routes/api.ts'));
+app.use(require('./routes/taskRoutes.ts'));
 
 
 

@@ -1,14 +1,15 @@
-import { TaskModel, Task } from '../db/models/taskModel';
+import { TaskModel, Task, TaskCollection } from '../db/models/taskModel';
 import { ObjectId } from 'mongodb';
 import taskArchiveService from './taskArchiveService'
 
 class TaskService {
-  async saveTask(description: string, isCompleted:boolean): Promise<string> {
+  async saveTask(description: string, isCompleted: boolean): Promise<string> {
     try {
       const _id = new ObjectId()
       const newTask = new TaskModel({ _id, description, isCompleted });
-      await newTask.save();
-      return `${_id}`;
+      const res = await newTask.save();
+      if (!!res) return `${_id}`;
+      else throw new Error
     } catch (err: any) {
       for (const key in err.errors) {
         console.log(err.errors[key].message)
@@ -30,6 +31,23 @@ class TaskService {
       else throw new Error('Task cannot be archived')
       return true
 
+    } catch (err: any) {
+      for (const key in err.errors) {
+        console.log(err.errors[key].message)
+      }
+      return false
+    }
+  }
+
+  async updateTask(task: Task): Promise<boolean> {
+    const { _id, description, isCompleted } = task
+    try {
+      const validateTask = new TaskModel({ _id, description, isCompleted });
+      if(!validateTask.validateSync()){
+        await TaskModel.where({ _id }).updateOne({ description, isCompleted  })
+        return true
+      }
+      else throw new Error();
     } catch (err: any) {
       for (const key in err.errors) {
         console.log(err.errors[key].message)
