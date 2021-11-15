@@ -6,7 +6,7 @@ class TaskService {
   async saveTask(description: string, isCompleted: boolean): Promise<string> {
     try {
       const _id = new ObjectId()
-      const newTask = new TaskModel({ _id, description, isCompleted });
+      const newTask: TaskCollection = new TaskModel({ _id, description, isCompleted });
       const res = await newTask.save();
       if (!!res) return `${_id}`;
       else throw new Error
@@ -25,9 +25,9 @@ class TaskService {
 
   async archiveTask(id: string): Promise<boolean> {
     try {
-      const taskToArchive: any = await TaskModel.findOne({ _id: id })
-      const isTaskArchived = await taskArchiveService.saveTask(taskToArchive)
-      if (isTaskArchived) await TaskModel.deleteOne({ _id: id })
+      const taskToArchive: TaskCollection | null = await TaskModel.findOne({ _id: new ObjectId(id) })
+      const isTaskArchived: boolean = await taskArchiveService.saveTask(taskToArchive)
+      if (isTaskArchived) await TaskModel.deleteOne({ _id: new ObjectId(id) })
       else throw new Error('Task cannot be archived')
       return true
 
@@ -42,9 +42,9 @@ class TaskService {
   async updateTask(task: Task): Promise<boolean> {
     const { _id, description, isCompleted } = task
     try {
-      const validateTask = new TaskModel({ _id, description, isCompleted });
-      if(!validateTask.validateSync()){
-        await TaskModel.where({ _id }).updateOne({ description, isCompleted  })
+      const validateTask: TaskCollection = new TaskModel({ _id, description, isCompleted });
+      if (!validateTask.validateSync()) {
+        await TaskModel.where({ _id }).updateOne({ description, isCompleted })
         return true
       }
       else throw new Error();

@@ -7,7 +7,7 @@ class TaskController {
     try {
       const { description, isCompleted } = req.body;
       const id = await taskService.saveTask(description, isCompleted)
-      if(id) res.status(201).send(id)
+      if (id) res.status(201).send(id)
       else res.sendStatus(400)
     } catch (err: any) {
       for (const key in err.errors) {
@@ -21,7 +21,7 @@ class TaskController {
     const { id } = req.params;
     try {
       const isDone = await taskService.archiveTask(id)
-      if(isDone) res.status(200).send(`Task with id = ${id} has been deleted`)
+      if (isDone) res.status(200).send(`Task with id = ${id} has been deleted`)
       else res.status(400).send(`Task with id = ${id} can't be deleted`)
     } catch (err: any) {
       for (const key in err.errors) {
@@ -37,12 +37,12 @@ class TaskController {
   }
 
   async update(req: Request, res: Response): Promise<void> {
-    try{
-      const { description, isCompleted}:{description: string, isCompleted: boolean} = req.body
+    try {
+      const { description, isCompleted }: { description: string, isCompleted: boolean } = req.body
       const { id } = req.params
-      const taskToUpdate = {_id: new ObjectId(id), description, isCompleted}
+      const taskToUpdate = { _id: new ObjectId(id), description, isCompleted }
       const isDone = await taskService.updateTask(taskToUpdate)
-      if(isDone) res.status(200).send(isDone)
+      if (isDone) res.status(200).send(isDone)
       else res.sendStatus(400)
     } catch (err: any) {
       for (const key in err.errors) {
@@ -50,7 +50,7 @@ class TaskController {
       }
       res.sendStatus(500)
     }
-    
+
   }
 
 

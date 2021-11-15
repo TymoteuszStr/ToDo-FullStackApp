@@ -1,18 +1,18 @@
-import { Schema, model, Document} from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 
 export interface Task {
   _id: {},
   description: string,
   isCompleted: boolean
 }
-export interface TaskCollection extends Document{
+export interface TaskCollection extends Document {
   _id: {},
   description: string,
   isCompleted: boolean
 }
 
 const taskSchema = new Schema({
-  _id:{
+  _id: {
     type: Schema.Types.ObjectId,
     required: false
   },
@@ -27,7 +27,7 @@ const taskSchema = new Schema({
     required: false,
     default: false
   }
-}, {versionKey: false });
+}, { versionKey: false });
 
 
 export const TaskModel = model<TaskCollection>('task', taskSchema);
