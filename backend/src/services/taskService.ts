@@ -3,10 +3,10 @@ import { ObjectId } from 'mongodb';
 import taskArchiveService from './taskArchiveService'
 
 class TaskService {
-  async saveTask(description: string, isCompleted: boolean): Promise<string> {
+  async saveTask(description: string, isCompleted: boolean, dueDate: Date, isImportant: boolean): Promise<string> {
     try {
       const _id = new ObjectId()
-      const newTask: TaskCollection = new TaskModel({ _id, description, isCompleted });
+      const newTask: TaskCollection = new TaskModel({ _id, description, isCompleted,dueDate,isImportant });
       const res = await newTask.save();
       if (!!res) return `${_id}`;
       else throw new Error
@@ -39,12 +39,12 @@ class TaskService {
     }
   }
 
-  async updateTask(task: Task): Promise<boolean> {
-    const { _id, description, isCompleted } = task
+  async updateTask(id: string, task: Task): Promise<boolean> {
+    const {description, isCompleted, dueDate, isImportant} = task
     try {
-      const validateTask: TaskCollection = new TaskModel({ _id, description, isCompleted });
+      const validateTask: TaskCollection = new TaskModel({...task});
       if (!validateTask.validateSync()) {
-        await TaskModel.where({ _id }).updateOne({ description, isCompleted })
+        await TaskModel.where({ _id: new ObjectId(id)}).updateOne({ description, isCompleted, dueDate, isImportant })
         return true
       }
       else throw new Error();

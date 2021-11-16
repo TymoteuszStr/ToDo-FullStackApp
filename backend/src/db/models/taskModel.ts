@@ -1,14 +1,12 @@
 import { Schema, model, Document } from 'mongoose';
 
 export interface Task {
-  _id: {},
   description: string,
-  isCompleted: boolean
+  isCompleted: boolean,
+  dueDate: Date,
+  isImportant: boolean
 }
-export interface TaskCollection extends Document {
-  _id: {},
-  description: string,
-  isCompleted: boolean
+export interface TaskCollection extends Document,Task {
 }
 
 const taskSchema = new Schema({
@@ -26,6 +24,15 @@ const taskSchema = new Schema({
     type: Boolean,
     required: false,
     default: false
+  },
+  dueDate:{
+    type: Date,
+    required: false,
+  },
+  isImportant: {
+    type: Boolean,
+    required: false,
+    default: false,
   }
 }, { versionKey: false });
 

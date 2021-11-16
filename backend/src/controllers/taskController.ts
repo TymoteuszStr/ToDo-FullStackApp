@@ -1,12 +1,11 @@
 import { Request, Response, Router } from 'express';
 import taskService from '../services/taskService';
-import { ObjectId } from 'mongodb';
 
 class TaskController {
   async add(req: Request, res: Response): Promise<void> {
     try {
-      const { description, isCompleted } = req.body;
-      const id = await taskService.saveTask(description, isCompleted)
+      const { description, isCompleted, dueDate, isImportant } = req.body;
+      const id = await taskService.saveTask(description, isCompleted, dueDate,isImportant)
       if (id) res.status(201).send(id)
       else res.sendStatus(400)
     } catch (err: any) {
@@ -38,10 +37,10 @@ class TaskController {
 
   async update(req: Request, res: Response): Promise<void> {
     try {
-      const { description, isCompleted }: { description: string, isCompleted: boolean } = req.body
+      const { description, isCompleted, dueDate, isImportant }: { description: string, isCompleted: boolean, dueDate: Date, isImportant: boolean } = req.body
       const { id } = req.params
-      const taskToUpdate = { _id: new ObjectId(id), description, isCompleted }
-      const isDone = await taskService.updateTask(taskToUpdate)
+      const taskToUpdate = { description, isCompleted, dueDate, isImportant }
+      const isDone = await taskService.updateTask(id, taskToUpdate)
       if (isDone) res.status(200).send(isDone)
       else res.sendStatus(400)
     } catch (err: any) {
@@ -50,10 +49,7 @@ class TaskController {
       }
       res.sendStatus(500)
     }
-
   }
-
-
 }
 
 export default new TaskController()
