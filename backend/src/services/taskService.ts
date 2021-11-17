@@ -3,10 +3,10 @@ import { ObjectId } from 'mongodb';
 import taskArchiveService from './taskArchiveService'
 
 class TaskService {
-  async saveTask(description: string, isCompleted: boolean, dueDate: Date, isImportant: boolean): Promise<string> {
+  async saveTask(task: Task): Promise<string> {
     try {
       const _id = new ObjectId()
-      const newTask: TaskCollection = new TaskModel({ _id, description, isCompleted,dueDate,isImportant });
+      const newTask: TaskCollection = new TaskModel({ _id, ...task });
       const res = await newTask.save();
       if (!!res) return `${_id}`;
       else throw new Error
@@ -26,6 +26,7 @@ class TaskService {
   async archiveTask(id: string): Promise<boolean> {
     try {
       const taskToArchive: TaskCollection | null = await TaskModel.findOne({ _id: new ObjectId(id) })
+      if (taskToArchive === null) return false;
       const isTaskArchived: boolean = await taskArchiveService.saveTask(taskToArchive)
       if (isTaskArchived) await TaskModel.deleteOne({ _id: new ObjectId(id) })
       else throw new Error('Task cannot be archived')
@@ -40,11 +41,10 @@ class TaskService {
   }
 
   async updateTask(id: string, task: Task): Promise<boolean> {
-    const {description, isCompleted, dueDate, isImportant} = task
     try {
-      const validateTask: TaskCollection = new TaskModel({...task});
+      const validateTask: TaskCollection = new TaskModel({ ...task });
       if (!validateTask.validateSync()) {
-        await TaskModel.where({ _id: new ObjectId(id)}).updateOne({ description, isCompleted, dueDate, isImportant })
+        await TaskModel.where({ _id: new ObjectId(id) }).updateOne({ ...task })
         return true
       }
       else throw new Error();

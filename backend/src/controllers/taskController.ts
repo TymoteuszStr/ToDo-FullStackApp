@@ -1,11 +1,12 @@
 import { Request, Response, Router } from 'express';
+import { Task } from '../db/models/taskModel';
 import taskService from '../services/taskService';
 
 class TaskController {
   async add(req: Request, res: Response): Promise<void> {
     try {
-      const { description, isCompleted, dueDate, isImportant } = req.body;
-      const id = await taskService.saveTask(description, isCompleted, dueDate,isImportant)
+      const task: Task = req.body;
+      const id = await taskService.saveTask(task)
       if (id) res.status(201).send(id)
       else res.sendStatus(400)
     } catch (err: any) {
@@ -16,6 +17,7 @@ class TaskController {
     }
 
   }
+
   async delete(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     try {
@@ -37,9 +39,8 @@ class TaskController {
 
   async update(req: Request, res: Response): Promise<void> {
     try {
-      const { description, isCompleted, dueDate, isImportant }: { description: string, isCompleted: boolean, dueDate: Date, isImportant: boolean } = req.body
       const { id } = req.params
-      const taskToUpdate = { description, isCompleted, dueDate, isImportant }
+      const taskToUpdate: Task = req.body
       const isDone = await taskService.updateTask(id, taskToUpdate)
       if (isDone) res.status(200).send(isDone)
       else res.sendStatus(400)

@@ -1,10 +1,11 @@
 import { Schema, model, Document } from 'mongoose';
 
 export interface TaskArchive extends Document {
-  _id: {},
   taskId: {},
   description: string,
-  isCompleted: boolean
+  isCompleted?: boolean,
+  dueDate?: Date,
+  isImportant?: boolean
 }
 
 const taskArchiveSchema = new Schema({
@@ -22,6 +23,15 @@ const taskArchiveSchema = new Schema({
     type: Boolean,
     required: false,
     default: false
+  },
+  dueDate: {
+    type: Date,
+    required: false,
+  },
+  isImportant: {
+    type: Boolean,
+    required: false,
+    default: false,
   }
 }, { versionKey: false });
 
