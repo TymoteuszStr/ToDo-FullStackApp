@@ -1,8 +1,9 @@
 import { createStore } from "vuex";
+import taskModule, { TasksState } from "./modules/task.module";
 
+export interface State {
+  tasksState: TasksState;
+}
 export default createStore({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {},
+  modules: { taskModule },
 });
