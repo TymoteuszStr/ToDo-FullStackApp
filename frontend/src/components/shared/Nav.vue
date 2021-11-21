@@ -1,19 +1,19 @@
 <template>
-  <div id="nav"><router-link to="/">Home</router-link> |</div>
+  <div id="nav">
+    <router-link to="/">Home</router-link>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "Nav",
+  name: 'Nav',
 });
 </script>
 
 <style scoped lang="scss">
 #nav {
-  padding: 30px;
-
   a {
     font-weight: bold;
     color: #2c3e50;
