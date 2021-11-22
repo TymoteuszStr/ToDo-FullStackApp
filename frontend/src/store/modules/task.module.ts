@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { ActionContext } from 'vuex';
-import Task from '@/models/taskModel';
+import Task from 'models/taskModel';
 import { GET_TASKS, SET_TASKS } from '../types/task.type';
 import { State } from '..';
-import { URI } from '@/config';
+import { URI } from 'config';
 
 export interface TasksState {
   allTasks: Task[];

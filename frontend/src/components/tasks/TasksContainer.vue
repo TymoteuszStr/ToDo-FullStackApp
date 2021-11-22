@@ -3,16 +3,16 @@
 </template>
 
 <script>
-  import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
-  export default defineComponent({
-    name: 'Tasks',
-    props: {
-      tasks: {
-        type: Array,
-      },
+export default defineComponent({
+  name: "Tasks",
+  props: {
+    tasks: {
+      type: Array,
     },
-  });
+  },
+});
 </script>
 
 <style lang="scss" scoped></style>
