@@ -1,7 +1,8 @@
-import express from 'express';
+var express = require('express')
+var cors = require('cors')
 
 const app = express();
-
+app.use(cors());
 
 require('./db/mongoose')
 
