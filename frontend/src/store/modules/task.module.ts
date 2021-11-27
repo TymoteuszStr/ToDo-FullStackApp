@@ -1,9 +1,9 @@
-import axios from 'axios';
-import { ActionContext } from 'vuex';
-import Task from 'models/taskModel';
-import { GET_TASKS, SET_TASKS } from '../types/task.type';
-import { State } from '..';
-import { URI } from 'config';
+import axios from "axios";
+import { ActionContext } from "vuex";
+import Task from "@/models/taskModel";
+import { GET_TASKS, SET_TASKS } from "../types/task.type";
+import { State } from "..";
+import { URI } from "@/config";
 
 export interface TasksState {
   allTasks: Task[];
@@ -15,13 +15,15 @@ const getters = {
   allTasks: (tasksState: TasksState): Task[] => tasksState.allTasks,
 };
 const actions = {
-  [GET_TASKS]: async (context: ActionContext<TasksState, State>) =>
+  [GET_TASKS]: async (
+    context: ActionContext<TasksState, State>
+  ): Promise<void> =>
     new Promise<void>((resolve, reject) => {
       axios({
-        method: 'get',
+        method: "get",
         url: `${URI}/tasks`,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       })
         .then((resp) => {
@@ -35,7 +37,7 @@ const actions = {
     }),
 };
 const mutations = {
-  [SET_TASKS]: (tasksState: TasksState, response: Task[]) => {
+  [SET_TASKS]: (tasksState: TasksState, response: Task[]): void => {
     tasksState.allTasks = response;
   },
 };

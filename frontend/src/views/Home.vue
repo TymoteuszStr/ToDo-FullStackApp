@@ -5,11 +5,8 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
 import { useStore } from "vuex";
-import { GET_TASKS } from "store/types/task.type";
-import TasksContainer from "components/tasks/TasksContainer.vue";
-import Task from "models/taskModel";
-console.log("test");
-import Vue from "vue";
+import { GET_TASKS } from "@/store/types/task.type";
+import TasksContainer from "@/components/tasks/TasksContainer.vue";
 
 export default defineComponent({
   name: "Home",
