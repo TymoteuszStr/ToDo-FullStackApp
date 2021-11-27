@@ -1,27 +1,26 @@
 <template>
-  <TasksContainer :tasks="allTasks" />
+  <div class="home">
+    <TasksContainer />
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
-import { useStore } from "vuex";
-import { GET_TASKS } from "@/store/types/task.type";
+import { defineComponent } from "vue";
 import TasksContainer from "@/components/tasks/TasksContainer.vue";
 
 export default defineComponent({
   name: "Home",
   components: { TasksContainer },
-  setup() {
-    const store = useStore();
-    const allTasks = computed(() => store.getters.allTasks);
-    function getAllTasks() {
-      store.dispatch(GET_TASKS);
-    }
-    getAllTasks();
-
-    return { allTasks };
-  },
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+@import "@/styles/variables.scss";
+
+.home {
+  position: absolute;
+  background: $bg-color-dark;
+  width: 100vw;
+  height: 100vh;
+}
+</style>
