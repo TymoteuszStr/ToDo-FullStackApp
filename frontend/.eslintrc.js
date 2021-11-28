@@ -20,6 +20,7 @@ module.exports = {
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     "vue/valid-template-root": "off",
     "vue/no-unused-components": "warn",
+    "@typescript-eslint/no-empty-function": "warn",
   },
   overrides: [
     {

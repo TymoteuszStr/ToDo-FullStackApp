@@ -1,14 +1,14 @@
 <template>
-  <div class="taskContainer">
+  <div class="task-container">
     <TaskItem v-for="(task, index) in allTasks" :key="index" :task="task" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, onMounted } from "vue";
 import TaskItem from "./TaskItem.vue";
 import { useStore } from "vuex";
-import { GET_TASKS } from "@/store/types/task.type";
+import { GET_TASKS } from "../../store/types/task.type";
 
 export default defineComponent({
   name: "Tasks",
@@ -19,8 +19,10 @@ export default defineComponent({
     function getAllTasks() {
       store.dispatch(GET_TASKS);
     }
-    getAllTasks();
 
+    onMounted((): void => {
+      getAllTasks();
+    });
     return { allTasks };
   },
 });
@@ -28,7 +30,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import "@/styles/mixins.scss";
-.taskContainer {
+.task-container {
   @include flex-center;
   @include disable-select;
   position: relative;

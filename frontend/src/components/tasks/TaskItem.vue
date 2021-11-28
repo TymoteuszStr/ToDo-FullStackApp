@@ -1,13 +1,12 @@
-import Task from '../../../../backend/src/db/models/taskModel';
 <template>
-  <div class="item">
-    <div class="item__description">{{ task.description }}</div>
+  <div class="item" @click="itemHandleClick">
+    <p class="item__description">{{ task.description }}</p>
   </div>
 </template>
 
 <script lang="ts">
-import Task from "@/models/taskModel";
 import { defineComponent } from "vue";
+import Task from "../../models/taskModel";
 
 type TaskProps = {
   task: Task;
@@ -18,9 +17,7 @@ export default defineComponent({
   props: {
     task: Object as () => TaskProps,
   },
-  setup(props) {
-    console.log(props.task);
-
+  setup() {
     return {};
   },
 });
@@ -32,11 +29,14 @@ export default defineComponent({
   @include flex-center;
   position: relative;
   width: 80%;
-  background-color: #fff;
   border-radius: 6px;
+  color: rgb(163, 163, 163);
   margin: 5px 0px;
   min-height: 40px;
+  border: 1px solid grey;
+  box-shadow: 1px 2px 3px 0px grey;
   &__description {
+    padding: 7px 40px 7px 25px;
   }
 }
 </style>
