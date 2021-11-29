@@ -18,17 +18,29 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import "@/styles/mixins.scss";
+@import "@/styles/variables.scss";
 
 .float-button {
   @include flex-center;
+  @include  disable-select;
   position: fixed;
-  bottom: 80px;
-  right: 60px;
+  bottom: 0px;
+  left: 50%;
+
   min-width: 50px;
   min-height: 50px;
   border-radius: 50%;
-  background: linear-gradient(90deg, rgb(72, 182, 157), rgb(52, 124, 143));
+  transform: translateX(-50%);
   color: whitesmoke;
   font-size: 30px;
+  font-weight: 700;
+  border: none;
+  background: $main-color;
+  color: #081019;
+
+  &:active{
+    box-shadow: none;
+  }
 }
+
 </style>
