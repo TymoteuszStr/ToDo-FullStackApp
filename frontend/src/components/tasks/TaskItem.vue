@@ -1,5 +1,5 @@
 <template>
-  <div class="item" @click="itemHandleClick">
+  <div class="item" @click="$emit('taskClicked', task)">
     <p class="item__description">{{ task.description }}</p>
   </div>
 </template>
