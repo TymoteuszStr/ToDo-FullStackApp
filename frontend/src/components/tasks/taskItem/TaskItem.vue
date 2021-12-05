@@ -74,8 +74,8 @@ export default defineComponent({
       width: 50px;
       height: 50px;
       transition: transform 0.3s;
-
       &--svg {
+        @include flex-center;
         width: 15px;
         height: 15px;
       }
@@ -98,7 +98,7 @@ export default defineComponent({
 }
 
 .showDetails {
-  height: 200px;
+  height: 250px;
 }
 .rotateArrow {
   transform: rotate(-180deg);
