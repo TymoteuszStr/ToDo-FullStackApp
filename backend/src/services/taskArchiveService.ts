@@ -3,9 +3,9 @@ import { TaskCollection } from '../db/models/taskModel';
 
 class TaskArchiveService {
   async saveTask(taskToArchive: TaskCollection): Promise<boolean> {
-    const { _id, description, isCompleted, dueDate, isImportant } = taskToArchive
+    const { _id, title, description, isCompleted, dueDate, isImportant } = taskToArchive
     try {
-      const newArchiveTask: TaskArchive = new TaskArchiveModel({ taskId: _id, description, isCompleted, dueDate, isImportant });
+      const newArchiveTask: TaskArchive = new TaskArchiveModel({ taskId: _id, title, description, isCompleted, dueDate, isImportant });
       await newArchiveTask.save()
       return true
     }

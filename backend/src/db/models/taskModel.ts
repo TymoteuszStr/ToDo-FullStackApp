@@ -1,6 +1,7 @@
 import { Schema, model, Document } from 'mongoose';
 
 export interface Task {
+  title: string,
   description: string,
   isCompleted?: boolean,
   dueDate?: Date,
@@ -14,10 +15,17 @@ const taskSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: false
   },
+  title: {
+    type: String,
+    required: [true, 'Pole title jest wymagane'],
+    minLength: [1, 'Minimalna liczba znaków to 1'],
+    maxLength: 60,
+    trim: true,
+  },
   description: {
     type: String,
-    required: [true, 'Pole description jest wymagane'],
-    minLength: [1, 'Minimalna liczba znaków to 1'],
+    required: false,
+    maxLength: 300,
     trim: true,
   },
   isCompleted: {

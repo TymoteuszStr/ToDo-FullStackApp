@@ -2,6 +2,7 @@ import { Schema, model, Document } from 'mongoose';
 
 export interface TaskArchive extends Document {
   taskId: {},
+  title: string,
   description: string,
   isCompleted?: boolean,
   dueDate?: Date,
@@ -13,10 +14,17 @@ const taskArchiveSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true
   },
+  title: {
+    type: String,
+    required: [true, 'Title is required'],
+    minLength: [1, 'Min lenght of title is 1'],
+    maxLength: [60, 'Max lenght of title 60'],
+    trim: true,
+  },
   description: {
     type: String,
-    required: [true, 'Pole description jest wymagane'],
-    minLength: [1, 'Minimalna liczba znaków to 1'],
+    required: false,
+    maxLength: [300, 'Max lenght of description is 300'],
     trim: true,
   },
   isCompleted: {
