@@ -1,6 +1,6 @@
 <template>
   <div class="task-container">
-    <TaskItem v-for="(task, index) in allTasks" :key="index" :task="task" @taskClicked="taskClickedHandle" />
+    <TaskItem v-for="(task, index) in allTasks" :key="index" :task="task" @taskClick="taskClickHandle" />
   </div>
 </template>
 
@@ -12,7 +12,7 @@ import { useStore } from "vuex";
 import { DELETE_TASK, GET_TASKS } from "../../store/types/task.type";
 
 export default defineComponent({
-  name: "Tasks",
+  name: "TasksContainer",
   components: { TaskItem },
   setup() {
     const { dispatch, getters } = useStore();
@@ -20,13 +20,13 @@ export default defineComponent({
     function getAllTasks() {
       dispatch(GET_TASKS);
     }
-    const taskClickedHandle = (e: Task) => {
-      dispatch(DELETE_TASK, e._id);
+    const taskClickHandle = (e: Task) => {
+      // dispatch(DELETE_TASK, e._id);
     };
     onMounted((): void => {
       getAllTasks();
     });
-    return { allTasks, taskClickedHandle };
+    return { allTasks, taskClickHandle };
   },
 });
 </script>

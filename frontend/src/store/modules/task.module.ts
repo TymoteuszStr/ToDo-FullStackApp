@@ -3,7 +3,7 @@ import { ActionContext } from "vuex";
 import Task from "@/models/taskModel";
 import { State } from "..";
 import { URI } from "@/config";
-import { GET_TASKS, SET_TASKS, DELETE_TASK, DELETE_FROM_ALL_TASKS } from "../types/task.type";
+import { GET_TASKS, SET_TASKS, DELETE_TASK, DELETE_FROM_ALL_TASKS, POST_TASK } from "../types/task.type";
 
 export interface TasksState {
   allTasks: Task[];
@@ -28,6 +28,28 @@ const actions = {
       })
         .then((resp) => {
           context.commit(SET_TASKS, resp.data);
+          resolve(resp.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject();
+        });
+    }),
+
+  [POST_TASK]: async (
+    context: ActionContext<TasksState, State>,
+    task: Task
+  ): Promise<void> =>
+    new Promise<void>((resolve, reject) => {
+      axios({
+        method: "post",
+        url: `${URI}/task`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: task
+      })
+        .then((resp) => {
           resolve(resp.data);
         })
         .catch((err) => {
