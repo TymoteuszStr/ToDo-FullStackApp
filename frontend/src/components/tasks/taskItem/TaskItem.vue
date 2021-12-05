@@ -1,5 +1,5 @@
 <template>
-  <div class="task" ref="taskRef">
+  <div class="task" ref="taskRef" @click="$emit('taskClicked', task)">
     <div class="task__general">
       <p class="task__general__title">{{ task.title }}</p>
       <div class="task__general__arrow" ref="arrowRef" @click.stop="showDetalis">
