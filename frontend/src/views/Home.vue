@@ -23,5 +23,6 @@ export default defineComponent({
   background: $bg-color-dark;
   width: 100vw;
   height: 100vh;
+  overflow-y: auto;
 }
 </style>

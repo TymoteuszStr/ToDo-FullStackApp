@@ -1,27 +1,30 @@
 <template>
   <div class="task" ref="taskRef">
     <div class="task__general">
-      <p class="task__general__title">{{ task.description }}</p>
+      <p class="task__general__title">{{ task.title }}</p>
       <div class="task__general__arrow" ref="arrowRef" @click.stop="showDetalis">
         <inline-svg class="task__general__arrow--svg" :src="require(`@/${arrowDown}`)" />
       </div>
     </div>
-    <div class="task__details" v-show="detailToggler"></div>
+    <div class="task__details" v-show="detailToggler">
+      <separator>Szczegóły</separator>
+      <p class="task__details__description">{{ task.description }}</p>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import Task from "../../models/taskModel";
+import Task from "../../../models/taskModel";
 import InlineSvg from "vue-inline-svg";
-
+import separator from "./Separator.vue";
 type TaskProps = {
   task: Task;
 };
 
 export default defineComponent({
   name: "Tasks",
-  components: { InlineSvg },
+  components: { InlineSvg, separator },
   props: {
     task: Object as () => TaskProps,
   },
@@ -58,7 +61,7 @@ export default defineComponent({
     align-content: stretch;
 
     &__title {
-      text-align: start;
+      text-align: left;
       text-overflow: ellipsis;
       overflow: hidden;
       max-height: 2em;
@@ -80,10 +83,22 @@ export default defineComponent({
   }
   &__details {
     height: calc(180px - 2em);
+    &__header {
+      width: 100%;
+      text-align: left;
+    }
+    &__description {
+      display: flex;
+      color: rgba(255, 255, 255, 0.5);
+      width: 100%;
+      word-break: break-word;
+      padding: 5px 15px;
+    }
   }
 }
+
 .showDetails {
-  height: 180px;
+  height: 200px;
 }
 .rotateArrow {
   transform: rotate(-180deg);

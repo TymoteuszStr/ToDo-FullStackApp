@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, onMounted } from "vue";
-import TaskItem from "./TaskItem.vue";
+import TaskItem from "./taskItem/TaskItem.vue";
 import { useStore } from "vuex";
 import { GET_TASKS } from "../../store/types/task.type";
 
@@ -35,5 +35,6 @@ export default defineComponent({
   @include disable-select;
   position: relative;
   flex-direction: column;
+  padding-bottom: 60px;
 }
 </style>
