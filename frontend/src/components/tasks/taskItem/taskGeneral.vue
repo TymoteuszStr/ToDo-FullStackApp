@@ -8,7 +8,7 @@
 				class="general__text-container__input"
 				type="text"
 				v-model="inputText"
-				ref="textInput"
+				ref="textInputRef"
 				@keydown="inputValidation"
 			/>
 			<p v-else class="general__text-container__title">{{ title }}</p>
@@ -36,7 +36,7 @@
 			let inputText = ref(props.title as string)
 			let editMode = ref(false)
 			const arrowRef = ref()
-			const textInput = ref()
+			const textInputRef = ref()
 			const arrowDown = `assets/icons/arrow-down.svg`
 			const arrowClickHandle = () => {
 				arrowRef.value.classList.toggle("rotateArrow")
@@ -45,7 +45,7 @@
 			const titleClickHandle = () => {
 				editMode.value = true
 				setTimeout(() => {
-					textInput.value.focus()
+					textInputRef.value.focus()
 				}, 0)
 			}
 			document.addEventListener("click", () => {
@@ -55,7 +55,7 @@
 			const inputValidation = (e: Event) => {
 				if (inputText.value.length > 30) e.preventDefault()
 			}
-			return { arrowDown, arrowClickHandle, arrowRef, inputText, titleClickHandle, editMode, textInput, inputValidation }
+			return { arrowDown, arrowClickHandle, arrowRef, inputText, titleClickHandle, editMode, textInputRef, inputValidation }
 		},
 	})
 </script>
