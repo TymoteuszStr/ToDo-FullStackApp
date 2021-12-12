@@ -2,7 +2,14 @@
   <div class="details">
     <separator>Szczegóły</separator>
     <div class="text-container" @click.stop="descriptionClickHandle">
-      <textarea v-if="editMode" class="details__input" type="text" v-model="inputText" ref="textInputRef" @keydown="inputValidation" />
+      <textarea
+        v-if="editMode"
+        class="details__input"
+        type="text"
+        v-model="inputText"
+        ref="textInputRef"
+        @keydown="inputValidation"
+      />
       <p v-else class="details__description">{{ inputText }}</p>
     </div>
   </div>
@@ -67,7 +74,7 @@ export default defineComponent({
     resize: none;
 
     &:focus {
-      outline: 2px solid rgba(255, 255, 255, 0.3);
+      @include edit-focuse-input;
     }
   }
 

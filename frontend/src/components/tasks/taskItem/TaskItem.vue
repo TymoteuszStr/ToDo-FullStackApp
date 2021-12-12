@@ -1,12 +1,12 @@
 <template>
-  <div class="task" ref="taskRef" @click="$emit('taskClick', task)">
-    <taskGeneral @arrowClick="toggleDetails" :title="task.title" />
+  <div class="task" ref="taskRef">
+    <taskGeneral @arrowClick="toggleDetails" :title="task.title" @editTitle="editTitleHandle" />
     <taskDetails v-show="detailToggler" :description="task.description" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, PropType } from "vue";
+import { defineComponent, ref, PropType, Ref } from "vue";
 import Task from "@/models/taskModel";
 import taskGeneral from "./taskGeneral.vue";
 import taskDetails from "./taskDetails.vue";
@@ -14,15 +14,24 @@ import taskDetails from "./taskDetails.vue";
 export default defineComponent({
   name: "TaskItem",
   components: { taskGeneral, taskDetails },
-  props: { task: Object as PropType<Task> },
-  setup() {
+  props: { task: { type: Object as PropType<Task>, require: true } },
+  setup(props, { emit }) {
     const taskRef = ref();
     let detailToggler = ref(false);
     const toggleDetails = () => {
       taskRef.value.classList.toggle("showDetails");
       detailToggler.value = !detailToggler.value;
     };
-    return { toggleDetails, taskRef, detailToggler };
+
+    const editTitleHandle = (e: Ref<Event>) => {
+      console.log(e);
+      // let modifiedTask =
+      // console.log(modifiedTask?.title);
+      // modifiedTask?.title = "test";
+      // console.log(e, modifiedTask);
+      // emit("edit");
+    };
+    return { toggleDetails, taskRef, detailToggler, editTitleHandle };
   },
 });
 </script>
