@@ -57,7 +57,7 @@ export default defineComponent({
 
     const emitWithDelay = debounce(() => {
       emit("editTitle", { title: inputText.value });
-    }, 1000);
+    }, 500);
 
     const keydownHandle = (e: Event) => {
       if (inputText.value.length > 30) e.preventDefault();
