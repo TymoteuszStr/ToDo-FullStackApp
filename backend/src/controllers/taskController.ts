@@ -41,8 +41,23 @@ class TaskController {
     try {
       const { id } = req.params
       const taskToUpdate: Task = req.body
-      const isDone = await taskService.updateTask(id, taskToUpdate)
-      if (isDone) res.status(200).send(isDone)
+      const updatedTask = await taskService.update(id, taskToUpdate)
+      if (updatedTask) res.status(200).send(updatedTask)
+      else res.sendStatus(400)
+    } catch (err: any) {
+      for (const key in err.errors) {
+        console.log(err.errors[key].message)
+      }
+      res.sendStatus(500)
+    }
+  }
+
+  async updateProperty(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params
+      const property = req.body
+      const updatedTask = await taskService.updateProperty(id, property)
+      if (updatedTask) res.status(200).send(updatedTask)
       else res.sendStatus(400)
     } catch (err: any) {
       for (const key in err.errors) {

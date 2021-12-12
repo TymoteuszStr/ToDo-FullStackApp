@@ -40,19 +40,33 @@ class TaskService {
     }
   }
 
-  async updateTask(id: string, task: Task): Promise<boolean> {
+  async update(id: string, task: Task): Promise<TaskCollection | null> {
     try {
       const validateTask: TaskCollection = new TaskModel({ ...task });
       if (!validateTask.validateSync()) {
         await TaskModel.where({ _id: new ObjectId(id) }).updateOne({ ...task })
-        return true
+        const updatedTask = await TaskModel.findOne({ _id: new ObjectId(id) })
+        return updatedTask
       }
       else throw new Error();
     } catch (err: any) {
       for (const key in err.errors) {
         console.log(err.errors[key].message)
       }
-      return false
+      return null
+    }
+  }
+  async updateProperty(id: string, property: object): Promise<TaskCollection | null> {
+    try {
+      await TaskModel.where({ _id: new ObjectId(id) }).updateOne(property)
+      const updatedTask = await TaskModel.findOne({ _id: new ObjectId(id) })
+      return updatedTask
+
+    } catch (err: any) {
+      for (const key in err.errors) {
+        console.log(err.errors[key].message)
+      }
+      return null
     }
   }
 
