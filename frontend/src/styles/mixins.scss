@@ -13,3 +13,9 @@
   user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
+
+@mixin edit-focuse-input {
+  outline: none;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 7px;
+}

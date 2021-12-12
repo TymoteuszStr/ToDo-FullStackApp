@@ -1,17 +1,17 @@
 <template>
   <div class="home">
-    <TasksContainer />
+    <Tasks />
     <FloatButton />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import TasksContainer from "../components/tasks/TasksContainer.vue";
+import Tasks from "../components/tasks/Tasks.vue";
 import FloatButton from "../components/shared/FloatButton.vue";
 export default defineComponent({
   name: "Home",
-  components: { FloatButton, TasksContainer },
+  components: { FloatButton, Tasks },
 });
 </script>
 

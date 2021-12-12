@@ -22,7 +22,7 @@ export default defineComponent({
 
 .float-button {
   @include flex-center;
-  @include  disable-select;
+  @include disable-select;
   position: fixed;
   bottom: 0px;
   left: 50%;
@@ -38,9 +38,8 @@ export default defineComponent({
   background: $main-color;
   color: #081019;
 
-  &:active{
+  &:active {
     box-shadow: none;
   }
 }
-
 </style>
