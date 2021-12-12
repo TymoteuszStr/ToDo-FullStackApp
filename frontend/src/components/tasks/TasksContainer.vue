@@ -1,37 +1,43 @@
 <template>
-  <div class="taskContainer">
-    <TaskItem v-for="(task, index) in allTasks" :key="index" :task="task" />
+  <div class="task-container">
+    <TaskItem v-for="(task, index) in allTasks" :key="index" :task="task" @taskClicked="taskClickedHandle" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
-import TaskItem from "./TaskItem.vue";
+import { defineComponent, computed, onMounted } from "vue";
+import TaskItem from "./taskItem/TaskItem.vue";
+import Task from "../../models/taskModel";
 import { useStore } from "vuex";
-import { GET_TASKS } from "@/store/types/task.type";
+import { DELETE_TASK, GET_TASKS } from "../../store/types/task.type";
 
 export default defineComponent({
   name: "Tasks",
   components: { TaskItem },
   setup() {
-    const store = useStore();
-    const allTasks = computed(() => store.getters.allTasks);
+    const { dispatch, getters } = useStore();
+    const allTasks = computed(() => getters.allTasks);
     function getAllTasks() {
-      store.dispatch(GET_TASKS);
+      dispatch(GET_TASKS);
     }
-    getAllTasks();
-
-    return { allTasks };
+    const taskClickedHandle = (e: Task) => {
+      dispatch(DELETE_TASK, e._id);
+    };
+    onMounted((): void => {
+      getAllTasks();
+    });
+    return { allTasks, taskClickedHandle };
   },
 });
 </script>
 
 <style lang="scss" scoped>
 @import "@/styles/mixins.scss";
-.taskContainer {
+.task-container {
   @include flex-center;
   @include disable-select;
   position: relative;
   flex-direction: column;
+  padding-bottom: 60px;
 }
 </style>
