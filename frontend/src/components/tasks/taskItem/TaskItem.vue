@@ -23,13 +23,8 @@ export default defineComponent({
       detailToggler.value = !detailToggler.value;
     };
 
-    const editTitleHandle = (e: Ref<Event>) => {
-      console.log(e);
-      // let modifiedTask =
-      // console.log(modifiedTask?.title);
-      // modifiedTask?.title = "test";
-      // console.log(e, modifiedTask);
-      // emit("edit");
+    const editTitleHandle = (e: Event) => {
+      emit("edit", e);
     };
     return { toggleDetails, taskRef, detailToggler, editTitleHandle };
   },

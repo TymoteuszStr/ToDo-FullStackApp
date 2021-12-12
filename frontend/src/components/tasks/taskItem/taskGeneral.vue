@@ -56,7 +56,7 @@ export default defineComponent({
     });
 
     const emitWithDelay = debounce(() => {
-      emit("editTitle", inputText);
+      emit("editTitle", { title: inputText.value });
     }, 1000);
 
     const keydownHandle = (e: Event) => {

@@ -5,7 +5,7 @@
       :key="index"
       :task="task"
       @delete="deleteHandle"
-      @edit="editHandle"
+      @edit="(e) => editHandle(e, task._id)"
     />
   </div>
 </template>
@@ -15,7 +15,7 @@ import { defineComponent, computed, onMounted } from "vue";
 import TaskItem from "./taskItem/TaskItem.vue";
 import Task from "@/models/taskModel";
 import { useStore } from "vuex";
-import { DELETE_TASK, GET_TASKS } from "@/store/types/task.type";
+import { EDIT_TASK_PROPERTY, GET_TASKS } from "@/store/types/task.type";
 
 export default defineComponent({
   name: "Tasks",
@@ -30,9 +30,8 @@ export default defineComponent({
     const deleteHandle = (e: Task) => {
       // dispatch(DELETE_TASK, e._id);
     };
-    const editHandle = (e: Task) => {
-      console.log("działa");
-      console.log(e);
+    const editHandle = (e: {}, taskId: string) => {
+      dispatch(EDIT_TASK_PROPERTY, { taskId, property: e });
     };
 
     onMounted((): void => {
