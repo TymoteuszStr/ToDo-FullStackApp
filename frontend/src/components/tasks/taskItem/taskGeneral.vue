@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, PropType } from "vue";
+import { defineComponent, ref, PropType, onMounted, onUnmounted } from "vue";
 import InlineSvg from "vue-inline-svg";
 
 export default defineComponent({
@@ -31,38 +31,43 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    let inputText = ref(props.title as string);
-    let editMode = ref(false);
     const debounce = require("lodash.debounce");
-
     const arrowRef = ref();
     const textInputRef = ref();
     const arrowDown = `assets/icons/arrow-down.svg`;
+    let inputText = ref(props.title as string);
+    let editMode = ref(false);
 
-    const arrowClickHandle = () => {
+    const emitWithDelay = debounce(() => {
+      emit("editProperty", { title: inputText.value });
+    }, 500);
+
+    function turnOffEditMode() {
+      editMode.value = false;
+    }
+    function arrowClickHandle() {
       arrowRef.value.classList.toggle("arrow--rotateUp");
       emit("arrowClick");
-    };
+    }
 
-    const titleClickHandle = () => {
+    function titleClickHandle() {
       editMode.value = true;
       setTimeout(() => {
         textInputRef.value.focus();
       }, 0);
-    };
+    }
 
-    document.addEventListener("click", () => {
-      editMode.value = false;
-    });
-
-    const emitWithDelay = debounce(() => {
-      emit("editTitle", { title: inputText.value });
-    }, 500);
-
-    const keydownHandle = (e: Event) => {
+    function keydownHandle(e: Event) {
       if (inputText.value.length > 30) e.preventDefault();
       emitWithDelay();
-    };
+    }
+
+    onMounted(() => {
+      document.addEventListener("click", turnOffEditMode);
+    });
+    onUnmounted(() => {
+      document.removeEventListener("click", turnOffEditMode);
+    });
 
     return {
       arrowDown,

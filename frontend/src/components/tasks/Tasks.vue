@@ -5,7 +5,7 @@
       :key="index"
       :task="task"
       @delete="deleteHandle"
-      @edit="(e) => editHandle(e, task._id)"
+      @editProperty="(e) => editPropertyHandle(e, task._id)"
     />
   </div>
 </template>
@@ -30,14 +30,14 @@ export default defineComponent({
     const deleteHandle = (e: Task) => {
       // dispatch(DELETE_TASK, e._id);
     };
-    const editHandle = (e: {}, taskId: string) => {
+    const editPropertyHandle = (e: {}, taskId: string) => {
       dispatch(EDIT_TASK_PROPERTY, { taskId, property: e });
     };
 
     onMounted((): void => {
       getAllTasks();
     });
-    return { allTasks, deleteHandle, editHandle };
+    return { allTasks, deleteHandle, editPropertyHandle };
   },
 });
 </script>

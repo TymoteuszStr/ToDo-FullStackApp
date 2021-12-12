@@ -8,7 +8,7 @@
         type="text"
         v-model="inputText"
         ref="textInputRef"
-        @keydown="inputValidation"
+        @keydown="keydownHandle"
       />
       <p v-else class="details__description">{{ inputText }}</p>
     </div>
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, onMounted, onUnmounted, PropType, ref } from "vue";
 import separator from "./separator.vue";
 
 export default defineComponent({
@@ -28,25 +28,40 @@ export default defineComponent({
       default: "",
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
+    const textInputRef = ref();
+    const debounce = require("lodash.debounce");
     let inputText = ref(props.description as string);
     let editMode = ref(false);
-    const textInputRef = ref();
 
-    const descriptionClickHandle = () => {
+    const emitWithDelay = debounce(() => {
+      emit("editProperty", { description: inputText.value });
+    }, 500);
+
+    function descriptionClickHandle() {
       editMode.value = true;
       setTimeout(() => {
         textInputRef.value.focus();
       }, 0);
-    };
-    document.addEventListener("click", () => {
+    }
+
+    function turnOffEditMode() {
       editMode.value = false;
-      //add saveing task
-    });
-    const inputValidation = (e: Event) => {
+    }
+
+    function keydownHandle(e: Event) {
       if (inputText.value.length > 200) e.preventDefault();
-    };
-    return { inputText, descriptionClickHandle, editMode, textInputRef, inputValidation };
+      emitWithDelay();
+    }
+
+    onMounted(() => {
+      document.addEventListener("click", turnOffEditMode);
+    });
+    onUnmounted(() => {
+      document.removeEventListener("click", turnOffEditMode);
+    });
+
+    return { inputText, descriptionClickHandle, editMode, textInputRef, keydownHandle };
   },
 });
 </script>
