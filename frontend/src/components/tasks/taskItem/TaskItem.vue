@@ -1,15 +1,11 @@
 <template>
   <div class="task" ref="taskRef">
     <taskGeneral
-      @arrowClick="toggleDetails"
       :title="task.title"
       @editProperty="editPropertyHandle"
+      @arrowClick="toggleDetails"
     />
-    <taskDetails
-      v-show="detailToggler"
-      :description="task.description"
-      @editProperty="editPropertyHandle"
-    />
+    <taskDetails :description="task.description" @editProperty="editPropertyHandle" />
   </div>
 </template>
 
@@ -25,18 +21,31 @@ export default defineComponent({
   props: { task: { type: Object as PropType<Task>, require: true } },
   setup(props, { emit }) {
     const taskRef = ref();
-    let detailToggler = ref(false);
 
     function toggleDetails() {
-      taskRef.value.classList.toggle("showDetails");
-      detailToggler.value = !detailToggler.value;
+      if (taskRef.value.classList.contains("showDetails")) {
+        taskRef.value.classList.remove("showDetails");
+        return;
+      }
+
+      const allTasks = document.querySelectorAll(".task-container .task");
+      allTasks.forEach((task) => {
+        task.classList.remove("showDetails");
+      });
+
+      const allArrows = document.querySelectorAll(".task .general .arrow");
+      allArrows.forEach((arrow) => {
+        arrow.classList.remove("arrow--rotateUp");
+      });
+
+      taskRef.value.classList.add("showDetails");
     }
 
     function editPropertyHandle(e: Event) {
       emit("editProperty", e);
     }
 
-    return { toggleDetails, taskRef, detailToggler, editPropertyHandle };
+    return { toggleDetails, taskRef, editPropertyHandle };
   },
 });
 </script>
@@ -46,13 +55,14 @@ export default defineComponent({
 @import "@/styles/variables.scss";
 .task {
   color: $font-color;
+  height: $task-general-height;
   position: relative;
   width: 80%;
-  height: 50px;
   border-radius: 9px;
   margin: 9px 0px;
   background: rgba(255, 255, 255, 0.08);
-  transition: height ease-out 0.3s;
+  transition: height ease-out 0.4s;
+  overflow: hidden;
 }
 
 .showDetails {

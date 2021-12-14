@@ -15,7 +15,7 @@ import { defineComponent, computed, onMounted } from "vue";
 import TaskItem from "./taskItem/TaskItem.vue";
 import Task from "@/models/taskModel";
 import { useStore } from "vuex";
-import { EDIT_TASK_PROPERTY, GET_TASKS } from "@/store/types/task.type";
+import { UPDATE_TASK_PROPERTY, GET_TASKS } from "@/store/types/task.type";
 
 export default defineComponent({
   name: "Tasks",
@@ -31,7 +31,7 @@ export default defineComponent({
       // dispatch(DELETE_TASK, e._id);
     };
     const editPropertyHandle = (e: {}, taskId: string) => {
-      dispatch(EDIT_TASK_PROPERTY, { taskId, property: e });
+      dispatch(UPDATE_TASK_PROPERTY, { taskId, property: e });
     };
 
     onMounted((): void => {

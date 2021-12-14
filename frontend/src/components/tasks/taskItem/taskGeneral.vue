@@ -46,8 +46,8 @@ export default defineComponent({
       editMode.value = false;
     }
     function arrowClickHandle() {
-      arrowRef.value.classList.toggle("arrow--rotateUp");
       emit("arrowClick");
+      arrowRef.value.classList.toggle("arrow--rotateUp");
     }
 
     function titleClickHandle() {
@@ -89,9 +89,9 @@ export default defineComponent({
 
 .general {
   @include flex-center;
+  height: $task-general-height;
   width: 100%;
   align-content: stretch;
-  height: 50px;
 
   &__title {
     display: flex;
@@ -107,8 +107,8 @@ export default defineComponent({
   }
   &__input {
     @extend .general__title;
-    background: transparent;
     color: $font-color;
+    background: transparent;
     border: none;
     height: inherit;
     &:focus {
