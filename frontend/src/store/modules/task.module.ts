@@ -9,7 +9,7 @@ import {
   DELETE_TASK,
   DELETE_FROM_ALL_TASKS_ARRAY,
   POST_TASK,
-  EDIT_TASK, EDIT_TASK_PROPERTY, UPDATE_TASK_IN_ALL_TASKS_ARRAY
+  UPDATE_TASK, UPDATE_TASK_PROPERTY, UPDATE_TASK_IN_ALL_TASKS_ARRAY
 } from "../types/task.type";
 
 export interface TasksState {
@@ -79,14 +79,14 @@ const actions = {
         });
     }),
 
-  [EDIT_TASK]: async (
+  [UPDATE_TASK]: async (
     context: ActionContext<TasksState, State>,
     { taskId, modifiedTask }: { taskId: string, modifiedTask: Task }
   ): Promise<void> =>
     new Promise<void>((resolve, reject) => {
       axios({
         method: "put",
-        url: `${URI}/editTask/${taskId}`,
+        url: `${URI}/updateTask/${taskId}`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -101,14 +101,14 @@ const actions = {
         });
     }),
 
-  [EDIT_TASK_PROPERTY]: async (
+  [UPDATE_TASK_PROPERTY]: async (
     context: ActionContext<TasksState, State>,
     { taskId, property }: { taskId: string, property: {} }
   ): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       axios({
         method: "patch",
-        url: `${URI}/editTaskProperty/${taskId}`,
+        url: `${URI}/updateTaskProperty/${taskId}`,
         headers: {
           "Content-Type": "application/json",
         },
