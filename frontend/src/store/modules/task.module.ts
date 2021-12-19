@@ -9,7 +9,9 @@ import {
   DELETE_TASK,
   DELETE_FROM_ALL_TASKS_ARRAY,
   POST_TASK,
-  UPDATE_TASK, UPDATE_TASK_PROPERTY, UPDATE_TASK_IN_ALL_TASKS_ARRAY
+  UPDATE_TASK, UPDATE_TASK_PROPERTY,
+  UPDATE_TASK_IN_ALL_TASKS_ARRAY,
+  PUSH_NEW_TASK_TO_ALL_TASK_ARRAY
 } from "../types/task.type";
 
 export interface TasksState {
@@ -52,6 +54,7 @@ const actions = {
         data: task,
       })
         .then((resp) => {
+          context.commit(PUSH_NEW_TASK_TO_ALL_TASK_ARRAY, resp.data)
           resolve();
         })
         .catch((err) => {
@@ -128,6 +131,9 @@ const actions = {
 const mutations = {
   [SET_TASKS]: (tasksState: TasksState, response: Task[]): void => {
     tasksState.allTasks = response;
+  },
+  [PUSH_NEW_TASK_TO_ALL_TASK_ARRAY]: (tasksState: TasksState, task: Task): void => {
+    tasksState.allTasks.push(task);
   },
   [DELETE_FROM_ALL_TASKS_ARRAY]: (tasksState: TasksState, taskId: string): void => {
     const index = tasksState.allTasks.findIndex((el) => el._id === taskId);

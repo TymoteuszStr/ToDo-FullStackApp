@@ -1,6 +1,5 @@
 <template>
   <div class="task-container">
-    <TaskItem v-show="addNewToDo" id="newToDoTask" @editProperty="addNewToDoTask" />
     <TaskItem
       v-for="(task, index) in allTasks"
       :key="index"
@@ -8,6 +7,7 @@
       @delete="deleteHandle"
       @editProperty="(e) => editPropertyHandle(e, task._id)"
     />
+    <TaskItem v-show="showNewToDo" id="newToDoTask" @editProperty="addNewToDoTask" />
   </div>
 </template>
 
@@ -24,11 +24,11 @@ export default defineComponent({
   setup() {
     const { dispatch, getters } = useStore();
     const allTasks = computed(() => getters.allTasks);
-    let addNewToDo = ref(false);
+    let showNewToDo = ref(false);
 
     const emitter = require("tiny-emitter/instance");
     emitter.on("addNewToDo", function () {
-      addNewToDo.value = true;
+      showNewToDo.value = true;
       setTimeout(() => {
         const input: HTMLInputElement | null = document.querySelector("#newToDoTask input");
         input?.focus();
@@ -42,8 +42,9 @@ export default defineComponent({
     function editPropertyHandle(e: {}, taskId: string) {
       dispatch(UPDATE_TASK_PROPERTY, { taskId, property: e });
     }
-    function addNewToDoTask(task: {}) {
-      dispatch(POST_TASK, task);
+    async function addNewToDoTask(task: {}) {
+      await dispatch(POST_TASK, task);
+      showNewToDo.value = false;
     }
 
     const deleteHandle = (e: Task) => {
@@ -52,7 +53,8 @@ export default defineComponent({
     onMounted((): void => {
       getAllTasks();
     });
-    return { allTasks, deleteHandle, editPropertyHandle, addNewToDo, addNewToDoTask };
+
+    return { allTasks, deleteHandle, editPropertyHandle, showNewToDo, addNewToDoTask };
   },
 });
 </script>
