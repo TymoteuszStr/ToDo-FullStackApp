@@ -6,8 +6,8 @@ class TaskController {
   async add(req: Request, res: Response): Promise<void> {
     try {
       const task: Task = req.body;
-      const id = await taskService.saveTask(task)
-      if (id) res.status(201).send(id)
+      const newTask = await taskService.saveTask(task)
+      if (newTask) res.status(201).send(newTask)
       else res.sendStatus(400)
     } catch (err: any) {
       for (const key in err.errors) {

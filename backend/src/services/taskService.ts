@@ -3,12 +3,12 @@ import { ObjectId } from 'mongodb';
 import taskArchiveService from './taskArchiveService'
 
 class TaskService {
-  async saveTask(task: Task): Promise<string> {
+  async saveTask(task: Task): Promise<{}> {
     try {
       const _id = new ObjectId()
       const newTask: TaskCollection = new TaskModel({ _id, ...task });
-      const res = await newTask.save();
-      if (!!res) return `${_id}`;
+      const savedTask = await newTask.save();
+      if (!!savedTask) return savedTask;
       else throw new Error
     } catch (err: any) {
       for (const key in err.errors) {
