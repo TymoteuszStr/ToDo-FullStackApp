@@ -7,7 +7,12 @@
       @delete="deleteHandle"
       @editProperty="(e) => editPropertyHandle(e, task._id)"
     />
-    <TaskItem v-show="showNewToDo" id="newToDoTask" @editProperty="addNewToDoTask" />
+    <TaskItem
+      v-if="showNewToDo"
+      id="newToDoTask"
+      @editProperty="addNewToDoTask"
+      class="popUpAnimation"
+    />
   </div>
 </template>
 
@@ -31,7 +36,8 @@ export default defineComponent({
       showNewToDo.value = true;
       setTimeout(() => {
         const input: HTMLInputElement | null = document.querySelector("#newToDoTask input");
-        input?.focus();
+        input?.scrollIntoView({ behavior: "smooth" });
+        input?.focus({ preventScroll: true });
       });
     });
 
@@ -42,12 +48,22 @@ export default defineComponent({
     function editPropertyHandle(e: {}, taskId: string) {
       dispatch(UPDATE_TASK_PROPERTY, { taskId, property: e });
     }
-    async function addNewToDoTask(task: {}) {
-      await dispatch(POST_TASK, task);
-      showNewToDo.value = false;
+
+    async function addNewToDoTask(task: Task) {
+      if (!task.title) {
+        showNewToDo.value = false;
+        return;
+      }
+      try {
+        await dispatch(POST_TASK, task);
+        showNewToDo.value = false;
+      } catch (err) {
+        showNewToDo.value = false;
+      }
     }
 
     const deleteHandle = (e: Task) => {
+      console.log(e);
       // dispatch(DELETE_TASK, e._id);
     };
     onMounted((): void => {
@@ -61,11 +77,17 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import "@/styles/mixins.scss";
+@import "@/styles/animations.scss";
+
 .task-container {
   @include flex-center;
   @include disable-select;
   position: relative;
   flex-direction: column;
   padding-bottom: 60px;
+}
+
+.popUpAnimation {
+  animation: popUpNewToDo 0.3s ease-out;
 }
 </style>

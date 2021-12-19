@@ -20,12 +20,9 @@
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
   padding: 0;
-  touch-action: pan-x pan-y;
 }
 
 body {
-  overscroll-behavior: contain;
-  touch-action: pan-x pan-y;
   position: fixed;
   top: 0;
   left: 0;
