@@ -1,8 +1,8 @@
 <template>
   <div class="task-container">
     <TaskItem
-      v-for="(task, index) in allTasks"
-      :key="index"
+      v-for="task in allTasks"
+      :key="task._id"
       :task="task"
       @delete="deleteHandle"
       @editProperty="(e) => editPropertyHandle(e, task._id)"
@@ -21,7 +21,7 @@ import { defineComponent, computed, onMounted, ref } from "vue";
 import TaskItem from "./taskItem/TaskItem.vue";
 import Task from "@/models/taskModel";
 import { useStore } from "vuex";
-import { UPDATE_TASK_PROPERTY, GET_TASKS, POST_TASK } from "@/store/types/task.type";
+import { UPDATE_TASK_PROPERTY, GET_TASKS, POST_TASK, DELETE_TASK } from "@/store/types/task.type";
 
 export default defineComponent({
   name: "Tasks",
@@ -62,9 +62,8 @@ export default defineComponent({
       }
     }
 
-    const deleteHandle = (e: Task) => {
-      console.log(e);
-      // dispatch(DELETE_TASK, e._id);
+    const deleteHandle = (task: Task) => {
+      dispatch(DELETE_TASK, task._id);
     };
     onMounted((): void => {
       getAllTasks();

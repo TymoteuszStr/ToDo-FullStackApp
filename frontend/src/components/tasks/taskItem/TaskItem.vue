@@ -1,24 +1,28 @@
 <template>
-  <div class="task" ref="taskRef">
-    <taskGeneral
-      :title="task?.title"
-      @editProperty="editPropertyHandle"
-      @arrowClick="toggleDetails"
-    />
-    <taskDetails :description="task?.description" @editProperty="editPropertyHandle" />
-  </div>
+  <swiper class="taskWrapper" @swipeLeft="$emit('delete', task)">
+    <div class="task" ref="taskRef">
+      <taskGeneral
+        :title="task?.title"
+        @editProperty="editPropertyHandle"
+        @arrowClick="toggleDetails"
+      />
+      <taskDetails :description="task?.description" @editProperty="editPropertyHandle" />
+    </div>
+  </swiper>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, PropType } from "vue";
+import { defineComponent, ref, PropType, onMounted } from "vue";
 import Task from "@/models/taskModel";
 import taskGeneral from "./taskGeneral.vue";
 import taskDetails from "./taskDetails.vue";
+import swiper from "@/components/shared/SwipeToRemove.vue";
 
 export default defineComponent({
   name: "TaskItem",
-  components: { taskGeneral, taskDetails },
+  components: { taskGeneral, taskDetails, swiper },
   props: { task: { type: Object as PropType<Task>, require: false } },
+
   setup(props, { emit }) {
     const taskRef = ref();
 
@@ -53,11 +57,14 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import "@/styles/mixins.scss";
 @import "@/styles/variables.scss";
-.task {
-  color: $font-color;
-  height: $task-general-height;
+
+.taskWrapper {
   position: relative;
   width: 80%;
+}
+.task {
+  height: $task-general-height;
+  color: $font-color;
   border-radius: 9px;
   margin: 9px 0px;
   background: rgba(255, 255, 255, 0.08);
