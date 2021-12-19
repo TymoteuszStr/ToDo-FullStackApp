@@ -1,11 +1,11 @@
 <template>
   <div class="task" ref="taskRef">
     <taskGeneral
-      :title="task.title"
+      :title="task?.title"
       @editProperty="editPropertyHandle"
       @arrowClick="toggleDetails"
     />
-    <taskDetails :description="task.description" @editProperty="editPropertyHandle" />
+    <taskDetails :description="task?.description" @editProperty="editPropertyHandle" />
   </div>
 </template>
 
@@ -18,7 +18,7 @@ import taskDetails from "./taskDetails.vue";
 export default defineComponent({
   name: "TaskItem",
   components: { taskGeneral, taskDetails },
-  props: { task: { type: Object as PropType<Task>, require: true } },
+  props: { task: { type: Object as PropType<Task>, require: false } },
   setup(props, { emit }) {
     const taskRef = ref();
 

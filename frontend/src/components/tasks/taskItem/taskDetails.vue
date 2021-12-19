@@ -8,7 +8,7 @@
         type="text"
         v-model="inputText"
         ref="textInputRef"
-        @keydown="keydownHandle"
+        @blur="onBlurHandle"
       />
       <p v-else class="details__description">{{ inputText }}</p>
     </div>
@@ -30,13 +30,8 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const textInputRef = ref();
-    const debounce = require("lodash.debounce");
     let inputText = ref(props.description as string);
     let editMode = ref(false);
-
-    const emitWithDelay = debounce(() => {
-      emit("editProperty", { description: inputText.value });
-    }, 500);
 
     function descriptionClickHandle() {
       editMode.value = true;
@@ -49,9 +44,9 @@ export default defineComponent({
       editMode.value = false;
     }
 
-    function keydownHandle(e: Event) {
+    function onBlurHandle(e: Event) {
       if (inputText.value.length > 200) e.preventDefault();
-      emitWithDelay();
+      emit("editProperty", { description: inputText.value });
     }
 
     onMounted(() => {
@@ -61,7 +56,7 @@ export default defineComponent({
       document.removeEventListener("click", turnOffEditMode);
     });
 
-    return { inputText, descriptionClickHandle, editMode, textInputRef, keydownHandle };
+    return { inputText, descriptionClickHandle, editMode, textInputRef, onBlurHandle };
   },
 });
 </script>

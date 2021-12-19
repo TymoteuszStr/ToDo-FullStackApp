@@ -1,5 +1,5 @@
 <template>
-  <div class="general">
+  <div class="general" id="toDoTaskGeneral">
     <div class="text-container" @click.stop="titleClickHandle">
       <input
         v-if="editMode"
@@ -7,7 +7,7 @@
         type="text"
         v-model="inputText"
         ref="textInputRef"
-        @keydown="keydownHandle"
+        @blur="onBlurHandle"
       />
       <p v-else class="general__title">{{ title }}</p>
     </div>
@@ -31,19 +31,15 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const debounce = require("lodash.debounce");
     const arrowRef = ref();
     const textInputRef = ref();
     const arrowDown = `assets/icons/arrow-down.svg`;
     let inputText = ref(props.title as string);
     let editMode = ref(false);
 
-    const emitWithDelay = debounce(() => {
-      emit("editProperty", { title: inputText.value });
-    }, 500);
-
     function turnOffEditMode() {
       editMode.value = false;
+      editMode.value = props.title ? false : true;
     }
     function arrowClickHandle() {
       emit("arrowClick");
@@ -57,9 +53,9 @@ export default defineComponent({
       }, 0);
     }
 
-    function keydownHandle(e: Event) {
+    function onBlurHandle(e: Event) {
       if (inputText.value.length > 30) e.preventDefault();
-      emitWithDelay();
+      emit("editProperty", { title: inputText.value });
     }
 
     onMounted(() => {
@@ -77,7 +73,7 @@ export default defineComponent({
       titleClickHandle,
       editMode,
       textInputRef,
-      keydownHandle,
+      onBlurHandle,
     };
   },
 });

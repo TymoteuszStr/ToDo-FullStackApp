@@ -41,7 +41,7 @@ const actions = {
         });
     }),
 
-  [POST_TASK]: async (context: ActionContext<TasksState, State>, task: Task): Promise<void> =>
+  [POST_TASK]: async (context: ActionContext<TasksState, State>, task: any): Promise<void> =>
     new Promise<void>((resolve, reject) => {
       axios({
         method: "post",
@@ -52,7 +52,7 @@ const actions = {
         data: task,
       })
         .then((resp) => {
-          resolve(resp.data);
+          resolve();
         })
         .catch((err) => {
           console.log(err);

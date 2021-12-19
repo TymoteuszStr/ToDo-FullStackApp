@@ -1,5 +1,5 @@
 <template>
-  <button class="float-button">+</button>
+  <button class="float-button" @click="addNewToDo">+</button>
 </template>
 
 <script lang="ts">
@@ -11,7 +11,12 @@ export default defineComponent({
     position: {},
   },
   setup() {
-    return {};
+    const emitter = require("tiny-emitter/instance");
+
+    function addNewToDo() {
+      emitter.emit("addNewToDo");
+    }
+    return { addNewToDo };
   },
 });
 </script>
