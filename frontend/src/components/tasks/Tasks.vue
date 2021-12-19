@@ -11,6 +11,7 @@
       v-if="showNewToDo"
       id="newToDoTask"
       @editProperty="addNewToDoTask"
+      @delete="deleteHandle"
       class="popUpAnimation"
     />
   </div>
@@ -50,10 +51,9 @@ export default defineComponent({
     }
 
     async function addNewToDoTask(task: Task) {
-      if (!task.title) {
-        showNewToDo.value = false;
-        return;
-      }
+      showNewToDo.value = false;
+      if (!task.title) return;
+
       try {
         await dispatch(POST_TASK, task);
         showNewToDo.value = false;
@@ -63,7 +63,8 @@ export default defineComponent({
     }
 
     const deleteHandle = (task: Task) => {
-      dispatch(DELETE_TASK, task._id);
+      if (task) dispatch(DELETE_TASK, task._id);
+      else showNewToDo.value = false;
     };
     onMounted((): void => {
       getAllTasks();
