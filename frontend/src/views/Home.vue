@@ -1,8 +1,6 @@
 <template>
-  <div class="home">
-    <Tasks />
-    <FloatButton />
-  </div>
+  <Tasks />
+  <FloatButton />
 </template>
 
 <script lang="ts">
@@ -15,14 +13,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
-@import "@/styles/variables.scss";
-
-.home {
-  position: absolute;
-  background: $bg-color-dark;
-  width: 100vw;
-  height: 100vh;
-  overflow-y: auto;
-}
-</style>
+<style scoped lang="scss"></style>

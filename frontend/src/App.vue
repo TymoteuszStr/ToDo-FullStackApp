@@ -1,10 +1,12 @@
 <template>
-  <div>
+  <div class="app-container">
     <router-view />
   </div>
 </template>
 
 <style lang="scss">
+@import "@/styles/variables.scss";
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -28,5 +30,12 @@ body {
   left: 0;
   max-height: 100vh;
   max-width: 100vw;
+}
+.app-container {
+  position: absolute;
+  background: $bg-color-dark;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
 }
 </style>
