@@ -22,6 +22,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { useStore } from "vuex";
+import { LOGIN } from "@/store/types/user.type";
 
 export default defineComponent({
   name: "AuthModal",
@@ -29,9 +31,11 @@ export default defineComponent({
   setup() {
     const login = ref("");
     const password = ref("");
+    const { dispatch } = useStore();
+
     function handleSubmit(e: any): void {
       e.preventDefault();
-      console.log(login, password);
+      dispatch(LOGIN, { login: login.value, password: password.value });
     }
     return { handleSubmit, login, password };
   },
