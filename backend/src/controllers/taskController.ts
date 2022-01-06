@@ -34,7 +34,9 @@ class TaskController {
 
   async getAll(req: Request, res: Response): Promise<void> {
     const allTasks = await taskService.getAllTasks()
-    res.status(200).send(allTasks)
+    res
+      .status(200)
+      .json(allTasks)
   }
 
   async update(req: Request, res: Response): Promise<void> {
