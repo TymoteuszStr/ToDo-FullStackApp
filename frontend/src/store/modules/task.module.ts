@@ -15,7 +15,7 @@ import {
 } from "../types/task.type";
 
 export interface TasksState {
-  allTasks: Task[];
+  allTasks: Task[]
 }
 const tasksState: TasksState = {
   allTasks: [],

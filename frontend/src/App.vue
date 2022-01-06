@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-view">
     <router-view />
   </div>
 </template>
@@ -31,11 +31,12 @@ body {
   max-height: 100vh;
   max-width: 100vw;
 }
-.app-container {
+.app-view {
   position: absolute;
   background: $bg-color-dark;
   width: 100vw;
   height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 </style>
