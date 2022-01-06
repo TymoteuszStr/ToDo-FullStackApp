@@ -1,12 +1,13 @@
 import { Request, Response, Router } from 'express';
-import { Task } from '../db/models/taskModel';
-import taskService from '../services/taskService';
+import { Task } from '../db/models/Tasks/taskModel';
+import taskService from '../services/Tasks/taskService';
 
 class TaskController {
   async add(req: Request, res: Response): Promise<void> {
     try {
       const task: Task = req.body;
-      const newTask = await taskService.saveTask(task)
+      const newTask =
+        taskService.saveTask(task)
       if (newTask) res.status(201).send(newTask)
       else res.sendStatus(400)
     } catch (err: any) {

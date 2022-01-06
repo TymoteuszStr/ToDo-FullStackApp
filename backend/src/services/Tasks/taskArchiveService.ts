@@ -1,5 +1,5 @@
-import { TaskArchiveModel, TaskArchive } from '../db/models/taskArchiveModel';
-import { TaskCollection } from '../db/models/taskModel';
+import { TaskArchiveModel, TaskArchive } from '../../db/models/Tasks/taskArchiveModel';
+import { TaskCollection } from '../../db/models/Tasks/taskModel';
 
 class TaskArchiveService {
   async saveTask(taskToArchive: TaskCollection): Promise<boolean> {

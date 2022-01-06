@@ -1,4 +1,4 @@
-import { TaskModel, Task, TaskCollection } from '../db/models/taskModel';
+import { TaskModel, Task, TaskCollection } from '../../db/models/Tasks/taskModel';
 import { ObjectId } from 'mongodb';
 import taskArchiveService from './taskArchiveService'
 
