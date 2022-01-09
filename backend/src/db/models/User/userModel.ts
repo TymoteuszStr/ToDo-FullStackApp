@@ -1,11 +1,13 @@
 import { Schema, model, Document } from 'mongoose';
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 
-export interface Task {
+export interface IUser {
   name: string,
   password: string,
 }
-export interface UserCollection extends Document, Task {
+export interface IUserDocument extends IUser, Document {
+  checkPassword: (password: string) => boolean;
+
 }
 
 const userSchema = new Schema({
@@ -36,5 +38,11 @@ userSchema.pre('save', function (next) {
   next();
 })
 
+userSchema.methods = {
+  checkPassword(password: string) {
+    return bcrypt.compareSync(password, this.password)
+  }
+}
 
-export const UserModel = model<UserCollection>('user', userSchema);
+const User = model<IUserDocument>('User', userSchema);
+export default User

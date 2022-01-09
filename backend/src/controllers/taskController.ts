@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { Task } from '../db/models/Tasks/taskModel';
+import { Task } from '../db/models/Task/taskModel';
 import taskService from '../services/Tasks/taskService';
 
 class TaskController {

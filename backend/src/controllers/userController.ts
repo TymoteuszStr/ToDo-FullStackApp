@@ -6,7 +6,7 @@ class UserController {
   async login(req: Request, res: Response): Promise<void> {
     const { login, password } = req.body;
 
-    // const token = userService.login(login)
+    const isUserValid = await userService.login(login, password)
 
   }
 
