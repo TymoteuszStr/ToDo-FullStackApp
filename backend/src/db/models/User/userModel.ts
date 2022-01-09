@@ -47,7 +47,3 @@ UserSchema.methods = {
 const User = model<IUserDocument>('User', UserSchema);
 export default User
 
-
-//Task  = ITask
-// TaskCollection = ITaskDocument
-//TaskModel = TasK

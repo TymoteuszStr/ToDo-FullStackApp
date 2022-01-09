@@ -1,11 +1,11 @@
-import { TaskArchiveModel, TaskArchive } from '../../db/models/Task/taskArchiveModel';
-import { TaskCollection } from '../../db/models/Task/taskModel';
+import TaskArchive, { ITaskArchiveDocument, } from '../../db/models/Task/taskArchiveModel';
+import { ITaskDocument } from '../../db/models/Task/taskModel';
 
 class TaskArchiveService {
-  async saveTask(taskToArchive: TaskCollection): Promise<boolean> {
+  async saveTask(taskToArchive: ITaskDocument): Promise<boolean> {
     const { _id, title, description, isCompleted, dueDate, isImportant } = taskToArchive
     try {
-      const newArchiveTask: TaskArchive = new TaskArchiveModel({ taskId: _id, title, description, isCompleted, dueDate, isImportant });
+      const newArchiveTask: ITaskArchiveDocument = new TaskArchive({ taskId: _id, title, description, isCompleted, dueDate, isImportant });
       await newArchiveTask.save()
       return true
     }
