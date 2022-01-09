@@ -10,7 +10,7 @@ export interface IUserDocument extends IUser, Document {
 
 }
 
-const userSchema = new Schema({
+const UserSchema = new Schema({
   _id: {
     type: Schema.Types.ObjectId,
     required: false
@@ -31,18 +31,23 @@ const userSchema = new Schema({
 }, { versionKey: false });
 
 
-userSchema.pre('save', function (next) {
+UserSchema.pre('save', function (next) {
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(this.password, salt)
   this.password = hash;
   next();
 })
 
-userSchema.methods = {
+UserSchema.methods = {
   checkPassword(password: string) {
     return bcrypt.compareSync(password, this.password)
   }
 }
 
-const User = model<IUserDocument>('User', userSchema);
+const User = model<IUserDocument>('User', UserSchema);
 export default User
+
+
+//Task  = ITask
+// TaskCollection = ITaskDocument
+//TaskModel = TasK
