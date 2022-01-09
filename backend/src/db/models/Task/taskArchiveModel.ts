@@ -1,6 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
 
-export interface TaskArchive extends Document {
+export interface ITaskArchive extends Document {
   taskId: {},
   title: string,
   description: string,
@@ -8,8 +8,11 @@ export interface TaskArchive extends Document {
   dueDate?: Date,
   isImportant?: boolean
 }
+export interface ITaskArchiveDocument extends ITaskArchive, Document {
 
-const taskArchiveSchema = new Schema({
+}
+
+const TaskArchiveSchema = new Schema({
   taskId: {
     type: Schema.Types.ObjectId,
     required: true
@@ -44,4 +47,5 @@ const taskArchiveSchema = new Schema({
 }, { versionKey: false });
 
 
-export const TaskArchiveModel = model<TaskArchive>('taskArchive', taskArchiveSchema);
+const TaskArchive = model<ITaskArchiveDocument>('taskArchive', TaskArchiveSchema);
+export default TaskArchive; 
