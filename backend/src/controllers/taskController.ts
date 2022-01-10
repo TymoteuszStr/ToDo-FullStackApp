@@ -3,13 +3,15 @@ import { ITask } from '../db/models/Task/taskModel';
 import taskService from '../services/Tasks/taskService';
 
 class TaskController {
+
   async add(req: Request, res: Response): Promise<void> {
     try {
+
       const task: ITask = req.body;
-      const newTask =
-        taskService.saveTask(task)
+      const newTask = taskService.saveTask(task)
       if (newTask) res.status(201).send(newTask)
       else res.sendStatus(400)
+
     } catch (err: any) {
       for (const key in err.errors) {
         console.log(err.errors[key].message)
@@ -26,6 +28,7 @@ class TaskController {
       if (isDone) res.status(200).send(`Task with id = ${id} has been deleted`)
       else res.status(400).send(`Task with id = ${id} can't be deleted`)
     } catch (err: any) {
+
       for (const key in err.errors) {
         console.log(err.errors[key].message)
       }
@@ -58,8 +61,7 @@ class TaskController {
   async updateProperty(req: Request, res: Response): Promise<void> {
     try {
       const { id } = req.params
-      const property = req.body
-      const updatedTask = await taskService.updateProperty(id, property)
+      const updatedTask = await taskService.updateProperty(id, req.body)
       if (updatedTask) res.status(200).send(updatedTask)
       else res.sendStatus(400)
     } catch (err: any) {

@@ -2,7 +2,7 @@ import { Schema, model, Document } from 'mongoose';
 import bcrypt from 'bcrypt';
 
 export interface IUser {
-  name: string,
+  userName: string,
   password: string,
 }
 export interface IUserDocument extends IUser, Document {
@@ -15,7 +15,7 @@ const UserSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: false
   },
-  name: {
+  userName: {
     type: String,
     required: [true, 'Pole title jest wymagane'],
     minLength: [1, 'Minimalna liczba znaków to 1'],
