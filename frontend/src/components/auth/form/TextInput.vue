@@ -1,5 +1,5 @@
 <template>
-  <input class="input" type="text" placeholder="login" name="login" v-model="text" />
+  <input class="input" type="text" placeholder="Login" name="login" v-model="text" />
 </template>
 
 <script lang="ts">
@@ -37,7 +37,7 @@ input {
   color: $main-color;
   padding: 25px;
   letter-spacing: 1px;
-  font-size: 16px;
+  font-size: 14px;
 
   &::placeholder {
     color: $main-color;

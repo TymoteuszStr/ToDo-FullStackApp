@@ -1,10 +1,10 @@
 <template>
-  <form class="auth-form" @submit="handleSubmit">
-    <TextInput v-model="login" />
-    <PasswordInput v-model="password" />
-    <PasswordInput v-model="password" />
-    <p class="new-account-text">Create an account</p>
-    <button class="button" type="submit">Sign in</button>
+  <form class="register-form" @submit="handleSubmit">
+    <TextInput v-model="login" placeholder="Username or email address" />
+    <PasswordInput v-model="password" placeholder="New password" />
+    <PasswordInput v-model="password" placeholder="Reapead new password" />
+    <p class="back-to-login-text" @click="$emit('showLogin')">Back to login</p>
+    <button class="button" type="submit">Sign up</button>
   </form>
 </template>
 
@@ -16,16 +16,18 @@ import TextInput from "./TextInput.vue";
 import PasswordInput from "./PasswordInput.vue";
 
 export default defineComponent({
-  name: "RegisterModal",
+  name: "RegisterForm",
   components: { TextInput, PasswordInput },
   setup() {
     const login = ref("");
     const password = ref("");
     const { dispatch } = useStore();
+
     function handleSubmit(e: any): void {
       e.preventDefault();
       dispatch(REGISTER, { login: login.value, password: password.value });
     }
+
     return { handleSubmit, login, password };
   },
 });
@@ -34,10 +36,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import "@/styles/variables.scss";
 
-.auth-form {
+.register-form {
   display: flex;
   flex-direction: column;
-  height: 420px;
+  height: 490px;
   justify-content: space-between;
   align-items: center;
   padding-bottom: 30px;
@@ -47,7 +49,8 @@ export default defineComponent({
     height: 50px;
     background: rgba(255, 255, 255, 0.2);
     border: none;
-    margin: 90px;
+    margin-bottom: 130px;
+    margin-top: 30px;
     width: 150px;
     border-radius: 25px;
     background-color: $main-color;
@@ -56,7 +59,13 @@ export default defineComponent({
     font-size: 15px;
   }
 
-  .new-account-text {
+  .back-to-login-text {
+    color: rgba(255, 255, 255, 0.5);
+    margin: 10px;
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.06);
+    }
   }
 }
 </style>

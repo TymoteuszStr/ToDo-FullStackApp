@@ -2,7 +2,7 @@
   <form class="auth-form" @submit="handleSubmit">
     <TextInput v-model="login" />
     <PasswordInput v-model="password" />
-    <p class="new-account-text" @click="goToRegistration">Create an account</p>
+    <p class="new-account-text" @click="$emit('showRegister')">Create an account</p>
     <button class="button" type="submit">Sign in</button>
   </form>
 </template>
@@ -13,7 +13,6 @@ import { useStore } from "vuex";
 import { LOGIN } from "@/store/types/user.type";
 import TextInput from "./TextInput.vue";
 import PasswordInput from "./PasswordInput.vue";
-import router from "@/router";
 
 export default defineComponent({
   name: "AuthModal",
@@ -28,10 +27,7 @@ export default defineComponent({
       dispatch(LOGIN, { login: login.value, password: password.value });
     }
 
-    function goToRegistration(): void {
-      console.log("registration");
-    }
-    return { handleSubmit, login, password, goToRegistration };
+    return { handleSubmit, login, password };
   },
 });
 </script>

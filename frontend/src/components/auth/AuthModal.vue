@@ -2,19 +2,26 @@
 
 <template>
   <div class="auth-modal bg-svg">
-    <AuthForm />
+    <AuthForm v-if="showLogin" @showRegister="toggleForm(false)" />
+    <RegisterForm v-else @showLogin="toggleForm(true)" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import AuthForm from "./form/AuthForm.vue";
+import RegisterForm from "./form/RegisterForm.vue";
 
 export default defineComponent({
   name: "AuthModal",
-  components: { AuthForm },
+  components: { AuthForm, RegisterForm },
   setup() {
-    return {};
+    let showLogin = ref(true);
+    function toggleForm(toggler: boolean): void {
+      showLogin.value = toggler;
+    }
+
+    return { showLogin, toggleForm };
   },
 });
 </script>

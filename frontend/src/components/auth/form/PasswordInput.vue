@@ -2,7 +2,7 @@
   <input
     class="form__element form__input"
     type="password"
-    placeholder="password"
+    placeholder="Password"
     v-model="password"
     name="password"
   />
@@ -43,7 +43,7 @@ input {
   color: $main-color;
   padding: 25px;
   letter-spacing: 1px;
-  font-size: 16px;
+  font-size: 14px;
 
   &::placeholder {
     color: $main-color;
