@@ -1,13 +1,19 @@
 import { Request, Response, Router } from 'express';
 import UserService from '../services/User/userService'
+import { IUserDocument } from '../db/models/User/userModel'
 
 class UserController {
 
   async login(req: Request, res: Response): Promise<void> {
     const { login, password } = req.body;
-    const token = await UserService.login(login, password)
-    //dodać JWT i wyslac token zamiast samego satusu
-    if (token) res.status(200).send(true)
+    const validUser = await UserService.login(login, password)
+    if (!validUser) res.sendStatus(401)
+    else {
+      const token = await UserService.generateToken(validUser as IUserDocument)
+      if (!token) res.sendStatus(500)
+      else res.send(token).status(200)
+    }
+
   }
 
   async register(req: Request, res: Response): Promise<void> {

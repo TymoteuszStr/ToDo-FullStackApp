@@ -6,8 +6,8 @@ export interface IUser {
   password: string,
 }
 export interface IUserDocument extends IUser, Document {
+  token?: string
   checkPassword: (password: string) => boolean;
-
 }
 
 const UserSchema = new Schema({
@@ -27,6 +27,10 @@ const UserSchema = new Schema({
     type: String,
     required: true,
     minLenght: [5, 'Hasło powiino posiadać min. 5 znaki']
+  },
+  token: {
+    type: String,
+    required: false,
   }
 }, { versionKey: false });
 
@@ -41,7 +45,7 @@ UserSchema.pre('save', function (next) {
 UserSchema.methods = {
   checkPassword(password: string) {
     return bcrypt.compareSync(password, this.password)
-  }
+  },
 }
 
 const User = model<IUserDocument>('User', UserSchema);
