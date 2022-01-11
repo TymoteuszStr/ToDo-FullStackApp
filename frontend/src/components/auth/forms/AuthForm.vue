@@ -2,8 +2,8 @@
   <form class="auth-form" @submit="handleSubmit">
     <TextInput v-model="login" />
     <PasswordInput v-model="password" />
-    <p class="new-account-text" @click="$emit('showRegister')">Create an account</p>
-    <button class="button" type="submit">Sign in</button>
+    <ChangeFormText @click="$emit('showRegister')">Create an account</ChangeFormText>
+    <SubmitBtn>Sign in</SubmitBtn>
   </form>
 </template>
 
@@ -11,12 +11,14 @@
 import { defineComponent, ref } from "vue";
 import { useStore } from "vuex";
 import { LOGIN } from "@/store/types/user.type";
-import TextInput from "./TextInput.vue";
-import PasswordInput from "./PasswordInput.vue";
+import TextInput from "./elements/TextInput.vue";
+import PasswordInput from "./elements/PasswordInput.vue";
+import SubmitBtn from "./elements/SubmitBtn.vue";
+import ChangeFormText from "./elements/ChangeFormText.vue";
 
 export default defineComponent({
   name: "AuthModal",
-  components: { TextInput, PasswordInput },
+  components: { TextInput, PasswordInput, SubmitBtn, ChangeFormText },
   setup() {
     const login = ref("");
     const password = ref("");
@@ -42,28 +44,5 @@ export default defineComponent({
   justify-content: space-between;
   align-items: center;
   padding-bottom: 30px;
-
-  .button {
-    color: white;
-    height: 50px;
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    margin: 90px;
-    width: 150px;
-    border-radius: 25px;
-    background-color: $main-color;
-    color: $navy-blue;
-    font-weight: 600;
-    font-size: 15px;
-  }
-
-  .new-account-text {
-    color: rgba(255, 255, 255, 0.5);
-    margin: 10px;
-    &:hover {
-      cursor: pointer;
-      transform: scale(1.06);
-    }
-  }
 }
 </style>

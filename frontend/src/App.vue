@@ -6,6 +6,7 @@
 
 <style lang="scss">
 @import "@/styles/variables.scss";
+@import "@/styles/mixins.scss";
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -22,6 +23,7 @@
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
   padding: 0;
+  @include disable-select;
 }
 
 body {
