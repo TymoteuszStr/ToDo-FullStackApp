@@ -8,7 +8,8 @@ class TaskController {
     try {
 
       const task: ITask = req.body;
-      const newTask = taskService.saveTask(task)
+      const newTask = await taskService.saveTask(task)
+      console.log(newTask)
       if (newTask) res.status(201).send(newTask)
       else res.sendStatus(400)
 
