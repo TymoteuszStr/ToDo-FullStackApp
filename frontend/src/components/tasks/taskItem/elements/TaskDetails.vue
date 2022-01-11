@@ -1,6 +1,6 @@
 <template>
   <div class="details">
-    <separator>Szczegóły</separator>
+    <SeparatorLine>Szczegóły</SeparatorLine>
     <div class="text-container" @click.stop="descriptionClickHandle">
       <textarea
         v-if="editMode"
@@ -17,11 +17,11 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, PropType, ref } from "vue";
-import separator from "./separator.vue";
+import SeparatorLine from "./SeparatorLine.vue";
 
 export default defineComponent({
   name: "TaskDetail",
-  components: { separator },
+  components: { SeparatorLine },
   props: {
     description: {
       type: String as PropType<string>,

@@ -1,12 +1,22 @@
 <template>
-  <input class="input" type="text" placeholder="Login" name="login" v-model="text" />
+  <input
+    class="passwordInput"
+    v-model="password"
+    type="password"
+    placeholder="Password"
+    name="password"
+    minlength="6"
+    maxlength="50"
+    pattern=".*[0-9].*"
+    required
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, PropType } from "vue";
 
 export default defineComponent({
-  name: "TextInput",
+  name: "PasswordInput",
   emits: ["update:modelValue"],
   props: {
     modelValue: {
@@ -15,11 +25,11 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const text = computed({
+    const password = computed({
       get: () => props.modelValue,
-      set: (text: string) => emit("update:modelValue", text),
+      set: (password: string) => emit("update:modelValue", password),
     });
-    return { text };
+    return { password };
   },
 });
 </script>
@@ -27,7 +37,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import "@/styles/variables.scss";
 
-input {
+.passwordInput {
   color: white;
   height: 50px;
   background: rgba(255, 255, 255, 0.2);
@@ -36,7 +46,6 @@ input {
   border-radius: 25px;
   color: $main-color;
   padding: 25px;
-  letter-spacing: 1px;
   font-size: 14px;
 
   &::placeholder {

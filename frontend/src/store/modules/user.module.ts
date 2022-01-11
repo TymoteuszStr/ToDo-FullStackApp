@@ -27,6 +27,7 @@ const actions = {
         data: { login, password },
       })
         .then((resp) => {
+          console.log(resp.data)
           context.commit(SET_USER, resp.data)
           resolve();
         })
@@ -47,6 +48,7 @@ const actions = {
         data: { login, password },
       })
         .then((resp) => {
+          console.log(resp.data)
           resolve(resp.data);
         })
         .catch((err) => {

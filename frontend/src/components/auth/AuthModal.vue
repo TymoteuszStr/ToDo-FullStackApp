@@ -9,8 +9,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import AuthForm from "./form/AuthForm.vue";
-import RegisterForm from "./form/RegisterForm.vue";
+import AuthForm from "./forms/AuthForm.vue";
+import RegisterForm from "./forms/RegisterForm.vue";
 
 export default defineComponent({
   name: "AuthModal",

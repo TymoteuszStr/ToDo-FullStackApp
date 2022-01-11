@@ -1,12 +1,12 @@
 <template>
   <swiper class="taskWrapper" @swipeLeft="$emit('delete', task)">
     <div class="task" ref="taskRef">
-      <taskGeneral
+      <TaskGeneral
         :title="task?.title"
         @editProperty="editPropertyHandle"
         @arrowClick="toggleDetails"
       />
-      <taskDetails :description="task?.description" @editProperty="editPropertyHandle" />
+      <TaskDetails :description="task?.description" @editProperty="editPropertyHandle" />
     </div>
   </swiper>
 </template>
@@ -14,13 +14,13 @@
 <script lang="ts">
 import { defineComponent, ref, PropType, onMounted } from "vue";
 import Task from "@/models/taskModel";
-import taskGeneral from "./taskGeneral.vue";
-import taskDetails from "./taskDetails.vue";
 import swiper from "@/components/shared/SwipeToRemove.vue";
+import TaskDetails from "./elements/TaskDetails.vue";
+import TaskGeneral from "./elements/TaskGeneral.vue";
 
 export default defineComponent({
   name: "TaskItem",
-  components: { taskGeneral, taskDetails, swiper },
+  components: { swiper, TaskDetails, TaskGeneral },
   props: { task: { type: Object as PropType<Task>, require: false } },
 
   setup(props, { emit }) {
