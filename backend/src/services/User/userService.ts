@@ -5,26 +5,14 @@ import jwt from 'jsonwebtoken'
 
 class UserService {
 
-  async login(login: string, password: string): Promise<IUserDocument | {}> {
+  async checkUserAndGenerateToken(login: string, password: string): Promise<string> {
     const user: IUserDocument | null = await User.findOne({ login })
-    if (user && user.checkPassword(password)) return user
-    else return {}
+    if (user && user.checkPassword(password))
+      return jwt.sign({ _id: user._id.toString() }, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: '6h' })
+    else return ''
   }
 
-  async generateToken(user: IUserDocument): Promise<string> {
-    const payload = {
-      _id: user._id.toString(),
-      userName: user.userName,
-    }
-    try {
-      const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: '6h' })
-      await User.where({ _id: new ObjectId(user._id) }).updateOne({ token })
-      return token
-    } catch (err) {
-      console.log(err)
-      return ''
-    }
-  }
+
 
   async addUser(user: IUser): Promise<boolean> {
     try {

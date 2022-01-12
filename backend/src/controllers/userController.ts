@@ -6,14 +6,9 @@ class UserController {
 
   async login(req: Request, res: Response): Promise<void> {
     const { login, password } = req.body;
-    const validUser = await UserService.login(login, password)
-    if (!validUser) res.sendStatus(401)
-    else {
-      const token = await UserService.generateToken(validUser as IUserDocument)
-      if (!token) res.sendStatus(500)
-      else res.send(token).status(200)
-    }
-
+    const token = await UserService.checkUserAndGenerateToken(login, password)
+    if (!token) res.sendStatus(401)
+    else res.send(token).status(200)
   }
 
   async register(req: Request, res: Response): Promise<void> {
