@@ -12,8 +12,6 @@ class UserService {
     else return ''
   }
 
-
-
   async addUser(user: IUser): Promise<boolean> {
     try {
       const _id = new ObjectId()
