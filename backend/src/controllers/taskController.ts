@@ -38,6 +38,7 @@ class TaskController {
   }
 
   async getAll(req: Request, res: Response): Promise<void> {
+    console.log('test')
     const allTasks = await taskService.getAllTasks()
     res
       .status(200)
