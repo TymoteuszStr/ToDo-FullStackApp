@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getToken } from "@/services/jwt.service";
 import { ActionContext } from "vuex";
 import Task from "@/models/taskModel";
 import { State } from "..";
@@ -30,6 +31,7 @@ const actions = {
         method: "get",
         url: `${URI}/tasks`,
         headers: {
+          "Authorization": `Bearer ${getToken()}`,
           "Content-Type": "application/json",
         },
       })
@@ -49,6 +51,7 @@ const actions = {
         method: "post",
         url: `${URI}/task`,
         headers: {
+          "Authorization": `Bearer ${getToken()}`,
           "Content-Type": "application/json",
         },
         data: task,
@@ -69,6 +72,7 @@ const actions = {
         method: "delete",
         url: `${URI}/task/${taskId}`,
         headers: {
+          "Authorization": `Bearer ${getToken()}`,
           "Content-Type": "application/json",
         },
       })
@@ -91,6 +95,7 @@ const actions = {
         method: "put",
         url: `${URI}/updateTask/${taskId}`,
         headers: {
+          "Authorization": `Bearer ${getToken()}`,
           "Content-Type": "application/json",
         },
         data: modifiedTask,
@@ -113,6 +118,7 @@ const actions = {
         method: "patch",
         url: `${URI}/updateTaskProperty/${taskId}`,
         headers: {
+          "Authorization": `Bearer ${getToken()}`,
           "Content-Type": "application/json",
         },
         data: property,

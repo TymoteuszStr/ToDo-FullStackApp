@@ -4,6 +4,7 @@ import { State } from "..";
 import { URI } from "@/config";
 import { LOGIN, SET_USER, REGISTER } from "../types/user.type";
 import User from "@/models/userModel"
+import { saveToken } from "@/services/jwt.service"
 
 export interface UserState {
   user: User | undefined
@@ -27,8 +28,7 @@ const actions = {
         data: { login, password },
       })
         .then((resp) => {
-          console.log(resp.data)
-          context.commit(SET_USER, resp.data)
+          saveToken(resp.data)
           resolve();
         })
         .catch((err) => {
