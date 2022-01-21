@@ -1,7 +1,7 @@
 <template>
   <form class="auth-form" @submit="handleSubmit">
-    <TextInput v-model="login" />
-    <PasswordInput v-model="password" />
+    <TextInput v-model="login" :class="{ invalid: formError }" />
+    <PasswordInput v-model="password" :class="{ invalid: formError }" />
     <ChangeFormText @click="$emit('showRegister')">Create an account</ChangeFormText>
     <SubmitBtn>Sign in</SubmitBtn>
   </form>
@@ -15,6 +15,7 @@ import TextInput from "./elements/TextInput.vue";
 import PasswordInput from "./elements/PasswordInput.vue";
 import SubmitBtn from "./elements/SubmitBtn.vue";
 import ChangeFormText from "./elements/ChangeFormText.vue";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "AuthModal",
@@ -23,19 +24,30 @@ export default defineComponent({
     const login = ref("");
     const password = ref("");
     const { dispatch } = useStore();
+    const router = useRouter();
+    let formError = ref(false);
 
-    function handleSubmit(e: any): void {
+    async function handleSubmit(e: any) {
       e.preventDefault();
-      dispatch(LOGIN, { login: login.value, password: password.value });
+      try {
+        await dispatch(LOGIN, { login: login.value, password: password.value });
+        router.push("/home");
+      } catch (err) {
+        formError.value = true;
+        setTimeout(() => {
+          formError.value = false;
+        }, 2000);
+      }
     }
 
-    return { handleSubmit, login, password };
+    return { handleSubmit, login, password, formError };
   },
 });
 </script>
 
 <style lang="scss" scoped>
 @import "@/styles/variables.scss";
+@import "@/styles/animations.scss";
 
 .auth-form {
   display: flex;
@@ -44,5 +56,10 @@ export default defineComponent({
   justify-content: space-between;
   align-items: center;
   padding-bottom: 30px;
+}
+.invalid {
+  animation-name: shakeX;
+  animation-duration: 0.85s;
+  border: 1px solid rgb(212, 32, 32);
 }
 </style>
