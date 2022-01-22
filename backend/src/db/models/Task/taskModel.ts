@@ -2,18 +2,25 @@ import { Schema, model, Document } from 'mongoose';
 
 export interface ITask {
   title: string,
+  userId: string | {},
   description: string,
   isCompleted?: boolean,
   dueDate?: Date,
   isImportant?: boolean
 }
 export interface ITaskDocument extends ITask, Document {
+  userId: string,
+
 }
 
 const TaskSchema = new Schema({
   _id: {
     type: Schema.Types.ObjectId,
     required: false
+  },
+  userId: {
+    type: String,
+    required: true
   },
   title: {
     type: String,

@@ -1,15 +1,14 @@
-import { Request, Response, Router } from 'express';
+import { Response, Router } from 'express';
 import { ITask } from '../db/models/Task/taskModel';
 import taskService from '../services/Tasks/taskService';
 
 class TaskController {
 
-  async add(req: Request, res: Response): Promise<void> {
+  async add(req: any, res: Response): Promise<void> {
     try {
-
-      const task: ITask = req.body;
+      const { task }: { task: ITask } = req.body;
+      if (task.userId !== req.USER_ID) throw 'wrong user id'
       const newTask = await taskService.saveTask(task)
-      console.log(newTask)
       if (newTask) res.status(201).send(newTask)
       else res.sendStatus(400)
 
@@ -17,14 +16,16 @@ class TaskController {
       for (const key in err.errors) {
         console.log(err.errors[key].message)
       }
-      res.sendStatus(500)
+      res.sendStatus(400)
     }
 
   }
 
-  async delete(req: Request, res: Response): Promise<void> {
+  async delete(req: any, res: Response): Promise<void> {
     const { id } = req.params;
     try {
+      if (req.body.userId !== req.USER_ID) throw 'wrong user id'
+
       const isDone = await taskService.archiveTask(id)
       if (isDone) res.status(200).send(`Task with id = ${id} has been deleted`)
       else res.status(400).send(`Task with id = ${id} can't be deleted`)
@@ -33,21 +34,25 @@ class TaskController {
       for (const key in err.errors) {
         console.log(err.errors[key].message)
       }
-      res.sendStatus(500)
+      res.sendStatus(400)
     }
   }
 
-  async getAll(req: Request, res: Response): Promise<void> {
-    const allTasks = await taskService.getAllTasks()
+  async getAll(req: any, res: Response): Promise<void> {
+    const { userId }: { userId: string } = req.body;
+    if (userId !== req.USER_ID) throw 'wrong user id'
+
+    const userTasks = await taskService.getAllUserTasks(userId)
     res
       .status(200)
-      .json(allTasks)
+      .json(userTasks)
   }
 
-  async update(req: Request, res: Response): Promise<void> {
+  async update(req: any, res: Response): Promise<void> {
     try {
-      const { id } = req.params
       const taskToUpdate: ITask = req.body
+      if (taskToUpdate.userId !== req.USER_ID) throw 'wrong user id'
+      const { id } = req.params
       const updatedTask = await taskService.update(id, taskToUpdate)
       if (updatedTask) res.status(200).send(updatedTask)
       else res.sendStatus(400)
@@ -55,21 +60,24 @@ class TaskController {
       for (const key in err.errors) {
         console.log(err.errors[key].message)
       }
-      res.sendStatus(500)
+      res.sendStatus(400)
     }
   }
 
-  async updateProperty(req: Request, res: Response): Promise<void> {
+  async updateProperty(req: any, res: Response): Promise<void> {
     try {
+      const { userId }: { userId: string } = req.body;
+      if (userId !== req.USER_ID) throw 'wrong user id'
+
       const { id } = req.params
-      const updatedTask = await taskService.updateProperty(id, req.body)
+      const updatedTask = await taskService.updateProperty(id, req.body.property, userId)
       if (updatedTask) res.status(200).send(updatedTask)
       else res.sendStatus(400)
     } catch (err: any) {
       for (const key in err.errors) {
         console.log(err.errors[key].message)
       }
-      res.sendStatus(500)
+      res.sendStatus(400)
     }
   }
 }

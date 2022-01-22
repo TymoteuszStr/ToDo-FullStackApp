@@ -19,9 +19,8 @@ class TaskService {
     }
   }
 
-  async getAllTasks(): Promise<{}> {
-    const allTasks = await Task.find({})
-    return allTasks
+  async getAllUserTasks(userId: string): Promise<{}> {
+    return await Task.find({ userId })
   }
 
   async archiveTask(id: string): Promise<boolean> {
@@ -57,9 +56,9 @@ class TaskService {
       return null
     }
   }
-  async updateProperty(id: string, property: object): Promise<ITaskDocument | null> {
+  async updateProperty(id: string, property: object, userId: string): Promise<ITaskDocument | null> {
     try {
-      await Task.where({ _id: new ObjectId(id) }).updateOne(property)
+      await Task.where({ _id: new ObjectId(id), userId }).updateOne(property)
       const updatedTask = await Task.findOne({ _id: new ObjectId(id) })
       return updatedTask
 

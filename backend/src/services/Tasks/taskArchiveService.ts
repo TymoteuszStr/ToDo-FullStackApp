@@ -3,9 +3,9 @@ import { ITaskDocument } from '../../db/models/Task/taskModel';
 
 class TaskArchiveService {
   async saveTask(taskToArchive: ITaskDocument): Promise<boolean> {
-    const { _id, title, description, isCompleted, dueDate, isImportant } = taskToArchive
+    const { _id, userId, title, description, isCompleted, dueDate, isImportant } = taskToArchive
     try {
-      const newArchiveTask: ITaskArchiveDocument = new TaskArchive({ taskId: _id, title, description, isCompleted, dueDate, isImportant });
+      const newArchiveTask: ITaskArchiveDocument = new TaskArchive({ taskId: _id, userId, title, description, isCompleted, dueDate, isImportant });
       await newArchiveTask.save()
       return true
     }
@@ -13,6 +13,10 @@ class TaskArchiveService {
       console.log(err)
       return false
     }
+  }
+
+  async getAllUserTasks(userId: string): Promise<{}> {
+    return await TaskArchive.find({ userId })
   }
 }
 

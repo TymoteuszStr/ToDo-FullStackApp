@@ -3,6 +3,7 @@ import { Schema, model, Document } from 'mongoose';
 export interface ITaskArchive extends Document {
   taskId: {},
   title: string,
+  userId: string | {},
   description: string,
   isCompleted?: boolean,
   dueDate?: Date,
@@ -15,6 +16,10 @@ export interface ITaskArchiveDocument extends ITaskArchive, Document {
 const TaskArchiveSchema = new Schema({
   taskId: {
     type: Schema.Types.ObjectId,
+    required: true
+  },
+  userId: {
+    type: String,
     required: true
   },
   title: {
