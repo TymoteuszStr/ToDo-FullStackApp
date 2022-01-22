@@ -5,11 +5,12 @@ import jwt from 'jsonwebtoken'
 
 class UserService {
 
-  async checkUserAndGenerateToken(login: string, password: string): Promise<string> {
+  async checkUserAndGenerateToken(login: string, password: string): Promise<{ token: string, userId: string }> {
     const user: IUserDocument | null = await User.findOne({ login })
+
     if (user && user.checkPassword(password))
-      return jwt.sign({ _id: user._id.toString() }, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: '6h' })
-    else return ''
+      return { token: jwt.sign({ _id: user._id.toString() }, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: '6h' }), userId: user._id.toString() }
+    else return { token: '', userId: '' }
   }
 
   async addUser(user: IUser): Promise<boolean> {
