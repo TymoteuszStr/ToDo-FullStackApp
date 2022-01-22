@@ -6,9 +6,9 @@ class UserController {
 
   async login(req: Request, res: Response): Promise<void> {
     const { login, password } = req.body;
-    const { token, userId } = await UserService.checkUserAndGenerateToken(login, password)
+    const { token, userId, userName } = await UserService.checkUserAndGenerateToken(login, password)
     if (!token) res.sendStatus(401)
-    else res.send({ token, userId }).status(200)
+    else res.send({ token, userId, userName }).status(200)
   }
 
   async register(req: Request, res: Response): Promise<void> {
