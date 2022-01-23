@@ -1,8 +1,7 @@
 import jwt, { VerifyErrors } from 'jsonwebtoken'
 import { Response, NextFunction } from 'express';
-import { IRequest } from '../interfaces/IRequest';
 
-module.exports = function (req: IRequest, res: Response, next: NextFunction) {
+module.exports = function (req: any, res: Response, next: NextFunction) {
   const { authorization } = req.headers;
   const token = authorization && (authorization as string).split(' ')[1]
   if (!token) return res.sendStatus(401)

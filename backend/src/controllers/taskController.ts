@@ -22,9 +22,9 @@ class TaskController {
   }
 
   async delete(req: any, res: Response): Promise<void> {
-    const { id } = req.params;
+    const { id, userId } = req.params;
     try {
-      if (req.body.userId !== req.USER_ID) throw 'wrong user id'
+      if (userId !== req.USER_ID) throw 'wrong user id'
 
       const isDone = await taskService.archiveTask(id)
       if (isDone) res.status(200).send(`Task with id = ${id} has been deleted`)
@@ -39,10 +39,10 @@ class TaskController {
   }
 
   async getAll(req: any, res: Response): Promise<void> {
-    const { userId }: { userId: string } = req.body;
+    const { userId } = req.params;
     if (userId !== req.USER_ID) throw 'wrong user id'
 
-    const userTasks = await taskService.getAllUserTasks(userId)
+    const userTasks = await taskService.getAllUserTasks(req.USER_ID)
     res
       .status(200)
       .json(userTasks)
