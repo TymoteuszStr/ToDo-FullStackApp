@@ -3,18 +3,18 @@ import { ActionContext } from "vuex";
 import { State } from "..";
 import { URI } from "@/config";
 import { LOGIN, SET_USER, REGISTER } from "../types/user.type";
-import User from "@/models/userModel"
+import IUser from "@/models/userModel"
 import { saveToken } from "@/services/jwt.service"
 
 export interface UserState {
-  user: User | undefined
+  user: IUser | undefined
 }
 const userState: UserState = {
   user: undefined
 }
 
 const getters = {
-  user: (userState: UserState): User | undefined => userState.user,
+  user: (userState: UserState): IUser | undefined => userState.user,
 };
 const actions = {
   [LOGIN]: async (context: ActionContext<UserState, State>, { login, password }: { login: string, password: string }): Promise<void> =>
@@ -28,7 +28,8 @@ const actions = {
         data: { login, password },
       })
         .then((resp) => {
-          saveToken(resp.data)
+          saveToken(resp.data.token)
+          context.commit(SET_USER, { id: resp.data.userId, name: resp.data.userName })
           resolve();
         })
         .catch((err) => {
@@ -58,7 +59,7 @@ const actions = {
     }),
 };
 const mutations = {
-  [SET_USER]: (userState: UserState, data: User): void => {
+  [SET_USER]: (userState: UserState, data: IUser): void => {
     userState.user = data;
   },
 

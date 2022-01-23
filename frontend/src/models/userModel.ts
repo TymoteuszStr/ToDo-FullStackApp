@@ -1,4 +1,4 @@
-export default interface User {
-  _id: string;
+export default interface IUser {
+  id: string;
   name: string;
 }

@@ -25,18 +25,19 @@ const getters = {
   allTasks: (tasksState: TasksState): Task[] => tasksState.allTasks,
 };
 const actions = {
-  [GET_TASKS]: async (context: ActionContext<TasksState, State>): Promise<void> =>
+  [GET_TASKS]: async ({ commit, getters }: ActionContext<TasksState, State>): Promise<void> =>
     new Promise<void>((resolve, reject) => {
+      const userId = getters.user?.id
       axios({
         method: "get",
-        url: `${URI}/tasks`,
+        url: `${URI}/tasks/${userId}`,
         headers: {
           "Authorization": `Bearer ${getToken()}`,
           "Content-Type": "application/json",
         },
       })
         .then((resp) => {
-          context.commit(SET_TASKS, resp.data);
+          commit(SET_TASKS, resp.data);
           resolve(resp.data);
         })
         .catch((err) => {
@@ -47,6 +48,7 @@ const actions = {
 
   [POST_TASK]: async (context: ActionContext<TasksState, State>, task: any): Promise<void> =>
     new Promise<void>((resolve, reject) => {
+      const userId = context.getters.user?.id
       axios({
         method: "post",
         url: `${URI}/task`,
@@ -54,7 +56,8 @@ const actions = {
           "Authorization": `Bearer ${getToken()}`,
           "Content-Type": "application/json",
         },
-        data: task,
+        data: { task: { ...task, userId } }
+
       })
         .then((resp) => {
           context.commit(PUSH_NEW_TASK_TO_ALL_TASK_ARRAY, resp.data)
@@ -68,9 +71,10 @@ const actions = {
 
   [DELETE_TASK]: async (context: ActionContext<TasksState, State>, taskId: string): Promise<void> =>
     new Promise<void>((resolve, reject) => {
+      const userId = context.getters.user?.id
       axios({
         method: "delete",
-        url: `${URI}/task/${taskId}`,
+        url: `${URI}/task/${taskId},${userId}`,
         headers: {
           "Authorization": `Bearer ${getToken()}`,
           "Content-Type": "application/json",
@@ -114,6 +118,7 @@ const actions = {
     { taskId, property }: { taskId: string, property: {} }
   ): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
+      const userId = context.getters.user?.id
       axios({
         method: "patch",
         url: `${URI}/updateTaskProperty/${taskId}`,
@@ -121,7 +126,7 @@ const actions = {
           "Authorization": `Bearer ${getToken()}`,
           "Content-Type": "application/json",
         },
-        data: property,
+        data: { property, userId },
       })
         .then(({ data }) => {
           resolve();
