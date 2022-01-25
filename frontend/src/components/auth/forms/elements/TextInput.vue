@@ -52,10 +52,34 @@ export default defineComponent({
   }
   &:focus {
     color: $navy-blue;
-  }
-  &:focus {
     background: rgba(255, 255, 255, 0.4);
     outline: none;
+  }
+}
+
+@media screen and (min-width: 555px) {
+  .textInput {
+    background: #242b44;
+    color: $font-color;
+
+    &::placeholder {
+      color: $font-color;
+    }
+    &:focus {
+      color: white;
+      background: #2d3352;
+      outline: none;
+    }
+  }
+  input:-webkit-autofill {
+    -webkit-text-fill-color: white !important;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #242b44 inset !important;
   }
 }
 </style>

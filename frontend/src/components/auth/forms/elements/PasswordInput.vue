@@ -59,4 +59,20 @@ export default defineComponent({
     outline: none;
   }
 }
+
+@media screen and (min-width: 840px) {
+  .passwordInput {
+    background: #242b44;
+    color: $font-color;
+
+    &::placeholder {
+      color: $font-color;
+    }
+    &:focus {
+      color: white;
+      background: #2d3352;
+      outline: none;
+    }
+  }
+}
 </style>

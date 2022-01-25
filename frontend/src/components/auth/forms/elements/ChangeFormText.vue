@@ -21,4 +21,10 @@ export default defineComponent({
     transform: scale(1.06);
   }
 }
+
+@media screen and (min-width: 1140px) {
+  .text {
+    color: $navy-blue;
+  }
+}
 </style>
