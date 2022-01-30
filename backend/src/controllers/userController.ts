@@ -12,9 +12,9 @@ class UserController {
 
   async register(req: Request, res: Response): Promise<void> {
     const { login, password } = req.body;
-    const isUserAdded = await UserService.addUser({ name: login, password })
-    if (isUserAdded) res.sendStatus(201)
-    else res.sendStatus(400)
+    const statusCode = await UserService.addUser({ name: login, password })
+    console.log(statusCode)
+    res.sendStatus(statusCode)
   }
 
 }

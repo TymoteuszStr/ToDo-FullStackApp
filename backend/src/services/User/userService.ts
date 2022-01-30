@@ -13,16 +13,16 @@ class UserService {
     else return { token: '', userId: '', name: '' }
   }
 
-  async addUser(user: IUser): Promise<boolean> {
+  async addUser(user: IUser): Promise<number> {
     try {
       const _id = new ObjectId()
       await new User({ _id, ...user }).save()
-
-    } catch (error) {
+    } catch (error: any) {
       console.log("Cannot add new user: ", error)
-      return false;
+      if (error.code === 11000) return 409
+      return 400;
     }
-    return true
+    return 200
   }
 
 
