@@ -16,10 +16,14 @@ export default defineComponent({
   name: "AuthModal",
   components: { AuthForm, RegisterForm },
   setup() {
+    const emitter = require("tiny-emitter/instance");
     let showLogin = ref(true);
     function toggleForm(toggler: boolean): void {
       showLogin.value = toggler;
     }
+    emitter.on("addNewToDo", function () {
+      showLogin.value = true;
+    });
 
     return { showLogin, toggleForm };
   },

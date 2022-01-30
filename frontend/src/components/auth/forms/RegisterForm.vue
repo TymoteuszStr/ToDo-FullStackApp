@@ -1,17 +1,22 @@
 <template>
   <form class="register-form" @submit="handleSubmit">
-    <TextInput v-model="login" placeholder="Username or email address" />
+    <TextInput
+      v-model="login"
+      placeholder="Username or email address"
+      :class="{ invalid: formError === 1 }"
+    />
     <PasswordInput
       v-model="password[0]"
       placeholder="New password"
-      :class="{ invalid: formError }"
+      :class="{ invalid: formError === 2 }"
     />
     <PasswordInput
       v-model="password[1]"
       placeholder="Repeat your password"
-      :class="{ invalid: formError }"
+      :class="{ invalid: formError === 2 }"
     />
-    <ChangeFormText @click="$emit('showLogin')">Back to login</ChangeFormText>
+    <Text v-if="formError" :warning="true">{{ errorMsg }}</Text>
+    <Text @click="$emit('showLogin')">Back to login</Text>
     <SubmitBtn>Sign up</SubmitBtn>
   </form>
 </template>
@@ -23,30 +28,44 @@ import { REGISTER } from "@/store/types/user.type";
 import TextInput from "./elements/TextInput.vue";
 import PasswordInput from "./elements/PasswordInput.vue";
 import SubmitBtn from "./elements/SubmitBtn.vue";
-import ChangeFormText from "./elements/ChangeFormText.vue";
+import Text from "./elements/Text.vue";
 
 export default defineComponent({
   name: "RegisterForm",
-  components: { TextInput, PasswordInput, SubmitBtn, ChangeFormText },
+  components: { TextInput, PasswordInput, SubmitBtn, Text },
   setup() {
     const login = ref("");
     const password = ref(["", ""]);
     const { dispatch } = useStore();
-    let formError = ref(false);
+    let formError = ref(0);
+    let errorMsg = ref("");
+    const emitter = require("tiny-emitter/instance");
 
-    function handleSubmit(e: any): void {
+    function errorHandle(arg: number) {
+      formError.value = arg;
+      setTimeout(() => {
+        formError.value = 0;
+      }, 2000);
+    }
+    async function handleSubmit(e: any): Promise<void> {
       e.preventDefault();
-      if (password.value[0] === password.value[1])
-        dispatch(REGISTER, { login: login.value, password: password.value[0] });
-      else {
-        formError.value = true;
-        setTimeout(() => {
-          formError.value = false;
-        }, 2000);
+      if (password.value[0] !== password.value[1]) {
+        errorMsg.value = `Password and repeated password are not the same.`;
+        return errorHandle(2);
+      }
+      try {
+        await dispatch(REGISTER, { login: login.value, password: password.value[0] });
+        errorMsg.value = "";
+        emitter.emit("backToLogin");
+      } catch (error: any) {
+        if (error.response.status === 409) {
+          errorHandle(1);
+          errorMsg.value = `This login is already taken.`;
+        }
       }
     }
 
-    return { handleSubmit, login, password, formError };
+    return { handleSubmit, login, password, formError, errorMsg };
   },
 });
 </script>
@@ -67,6 +86,6 @@ export default defineComponent({
 .invalid {
   animation-name: shakeX;
   animation-duration: 0.85s;
-  border: 1px solid rgb(212, 32, 32);
+  outline: 3px solid $red;
 }
 </style>

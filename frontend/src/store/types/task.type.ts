@@ -1,3 +1,4 @@
+export const CLEAR_TASKS = "CLEAR_TASKS";
 export const GET_TASKS = "GET_TASKS";
 export const SET_TASKS = "SET_TASKS";
 export const DELETE_TASK = "DELETE_TASK";

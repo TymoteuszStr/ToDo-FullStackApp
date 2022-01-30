@@ -6,6 +6,7 @@ import { State } from "..";
 import { URI } from "@/config";
 import {
   GET_TASKS,
+  CLEAR_TASKS,
   SET_TASKS,
   DELETE_TASK,
   DELETE_FROM_ALL_TASKS_ARRAY,
@@ -154,6 +155,9 @@ const mutations = {
     const index = tasksState.allTasks.findIndex((el) => el._id === task._id);
     tasksState.allTasks.splice(index, 1, task);
   },
+  [CLEAR_TASKS]: (tasksState: TasksState): void => {
+    tasksState.allTasks = []
+  }
 
 };
 

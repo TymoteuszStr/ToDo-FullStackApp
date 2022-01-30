@@ -2,7 +2,8 @@
   <form class="auth-form" @submit="handleSubmit">
     <TextInput v-model="login" :class="{ invalid: formError }" />
     <PasswordInput v-model="password" :class="{ invalid: formError }" />
-    <ChangeFormText @click="$emit('showRegister')">Create an account</ChangeFormText>
+    <Text v-if="formError" :isWarning="true">Login or password is incorrect.</Text>
+    <Text @click="$emit('showRegister')">Create an account</Text>
     <SubmitBtn>Sign in</SubmitBtn>
   </form>
 </template>
@@ -14,12 +15,12 @@ import { LOGIN } from "@/store/types/user.type";
 import TextInput from "./elements/TextInput.vue";
 import PasswordInput from "./elements/PasswordInput.vue";
 import SubmitBtn from "./elements/SubmitBtn.vue";
-import ChangeFormText from "./elements/ChangeFormText.vue";
+import Text from "./elements/Text.vue";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "AuthModal",
-  components: { TextInput, PasswordInput, SubmitBtn, ChangeFormText },
+  components: { TextInput, PasswordInput, SubmitBtn, Text },
   setup() {
     const login = ref("");
     const password = ref("");
@@ -60,6 +61,6 @@ export default defineComponent({
 .invalid {
   animation-name: shakeX;
   animation-duration: 0.85s;
-  border: 1px solid rgb(212, 32, 32);
+  border: 1px solid $red;
 }
 </style>
