@@ -2,7 +2,7 @@
 
 <template>
   <div class="auth-modal bg-svg">
-    <AuthForm v-if="showLogin" @showRegister="toggleForm(false)" />
+    <AuthForm v-if="formToggler" @showRegister="toggleForm(false)" />
     <RegisterForm v-else @showLogin="toggleForm(true)" />
   </div>
 </template>
@@ -16,16 +16,17 @@ export default defineComponent({
   name: "AuthModal",
   components: { AuthForm, RegisterForm },
   setup() {
-    const emitter = require("tiny-emitter/instance");
-    let showLogin = ref(true);
+    // const emitter = require("tiny-emitter/instance");
+    let formToggler = ref(true);
     function toggleForm(toggler: boolean): void {
-      showLogin.value = toggler;
+      formToggler.value = toggler;
     }
-    emitter.on("addNewToDo", function () {
-      showLogin.value = true;
-    });
 
-    return { showLogin, toggleForm };
+    // emitter.on("addNewToDo", function () {
+    //   formToggler.value = true;
+    // });
+
+    return { formToggler, toggleForm };
   },
 });
 </script>

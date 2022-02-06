@@ -33,13 +33,12 @@ import Text from "./elements/Text.vue";
 export default defineComponent({
   name: "RegisterForm",
   components: { TextInput, PasswordInput, SubmitBtn, Text },
-  setup() {
+  setup(props, { emit }) {
     const login = ref("");
     const password = ref(["", ""]);
     const { dispatch } = useStore();
     let formError = ref(0);
     let errorMsg = ref("");
-    const emitter = require("tiny-emitter/instance");
 
     function errorHandle(arg: number) {
       formError.value = arg;
@@ -56,12 +55,12 @@ export default defineComponent({
       try {
         await dispatch(REGISTER, { login: login.value, password: password.value[0] });
         errorMsg.value = "";
-        emitter.emit("backToLogin");
+        emit("showLogin");
       } catch (error: any) {
-        if (error.response.status === 409) {
+        if (error?.response?.status === 409) {
           errorHandle(1);
           errorMsg.value = `This login is already taken.`;
-        }
+        } else console.log(error);
       }
     }
 
