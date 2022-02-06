@@ -13,7 +13,6 @@ class UserController {
   async register(req: Request, res: Response): Promise<void> {
     const { login, password } = req.body;
     const statusCode = await UserService.addUser({ name: login, password })
-    console.log(statusCode)
     res.sendStatus(statusCode)
   }
 
