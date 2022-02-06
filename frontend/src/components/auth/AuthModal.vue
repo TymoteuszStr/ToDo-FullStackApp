@@ -1,5 +1,3 @@
-<!-- @format -->
-
 <template>
   <div class="auth-modal bg-svg">
     <AuthForm v-if="formToggler" @showRegister="toggleForm(false)" />
@@ -16,15 +14,10 @@ export default defineComponent({
   name: "AuthModal",
   components: { AuthForm, RegisterForm },
   setup() {
-    // const emitter = require("tiny-emitter/instance");
     let formToggler = ref(true);
     function toggleForm(toggler: boolean): void {
       formToggler.value = toggler;
     }
-
-    // emitter.on("addNewToDo", function () {
-    //   formToggler.value = true;
-    // });
 
     return { formToggler, toggleForm };
   },

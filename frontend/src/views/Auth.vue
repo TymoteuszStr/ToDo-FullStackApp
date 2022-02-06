@@ -1,5 +1,3 @@
-<!-- @format -->
-
 <template>
   <div class="app-view">
     <h1 class="logo">MyToDoes</h1>
