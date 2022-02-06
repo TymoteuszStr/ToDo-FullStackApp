@@ -67,7 +67,7 @@ export default defineComponent({
       else showNewToDo.value = false;
     };
     onMounted((): void => {
-      if (!allTasks.value.lenght) getAllTasks();
+      if (!allTasks.value) getAllTasks();
     });
 
     return { allTasks, deleteHandle, editPropertyHandle, showNewToDo, addNewToDoTask };
